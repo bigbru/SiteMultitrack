@@ -100,7 +100,7 @@
 </div>
 <div id="contentWithoutLog">
     <div class="jumbotron">
-        <h1>Gestionnaire d'utilisateurs</h1>
+        <h1>Gestionnaire d'utilisateurs TEST</h1>
         <p>Bienvenue dans le système de gestion des utilisateurs</p>
         <p>Sur le site vous pourrez donc gérer des utilisateurs, en ajouter, en supprimer, etc. Afin d'accéder à ces fonctionnalités, connectez vous.</p>
         <p>Si vous n'êtes pas inscrit, vous pouvez vous inscrire en cliquant sur le bouton ci-dessous.</p>
