@@ -1,11 +1,16 @@
 package utilisateurs.gestionnaires;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import utilisateurs.modeles.Adresse;
+import utilisateurs.modeles.Musique;
 import utilisateurs.modeles.Utilisateur;
 
 @Stateless
@@ -65,6 +70,35 @@ public class GestionnaireUtilisateurs {
             return u;
         }
         return null;
+    }
+    
+    public Musique creeMusique(String titre, String auteur, double prix) {
+        Musique m = new Musique(titre, auteur, prix);
+        em.persist(m);
+        return m;
+    }
+    
+    public void chargerMusiquesDeBase() {
+        String musiquesDeBase = "";
+        try{
+            InputStream flux = new FileInputStream("ressources/musiquesDeBase.txt"); 
+            InputStreamReader lecture = new InputStreamReader(flux);
+            BufferedReader buff = new BufferedReader(lecture);
+            String ligne;
+            while ((ligne=buff.readLine())!=null){
+                    musiquesDeBase += ligne;
+            }
+            buff.close(); 
+        }		
+        catch (Exception e){System.out.println(e.toString());}
+        
+        String[] listeMusiquesDeBase = musiquesDeBase.split(",");
+        for (String loop : listeMusiquesDeBase) {
+            String[] musique = loop.split("-");
+            musique[0].replaceAll("\"","");
+            musique[1].replaceAll("\"","");
+            creeMusique(musique[0],musique[1], 0);
+        }
     }
 
     public Collection<Utilisateur> getAllUsers() {
