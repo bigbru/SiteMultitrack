@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,7 @@ import utilisateurs.modeles.Utilisateur;
  *
  * @author michel
  */
-//@WebServlet(name = "ServletUsers", urlPatterns = {"/ServletUsers"})
+@WebServlet(name = "ServletUsers", urlPatterns = {"/ServletUsers"})
 public class ServletUsers extends HttpServlet {
 
     // ici injection de code ! On n'initialise pas !
