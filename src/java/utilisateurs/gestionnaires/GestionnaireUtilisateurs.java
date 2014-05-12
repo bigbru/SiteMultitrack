@@ -1,0 +1,194 @@
+package utilisateurs.gestionnaires;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Collection;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import utilisateurs.modeles.Musique;
+import utilisateurs.modeles.Utilisateur;
+
+@Stateless
+public class GestionnaireUtilisateurs {
+
+    // Ici injection de code : on n'initialise pas. L'entity manager sera créé
+    // à partir du contenu de persistence.xml
+    @PersistenceContext
+    private EntityManager em;
+
+    private int currentLine = 0;
+    
+
+    public void generateUsers(int nb) {
+
+        String line;
+        int end = currentLine + nb;
+        int i = 0;
+
+        InputStream is = null;
+        BufferedReader br = null;
+        try {
+            is = getClass().getClassLoader().getResourceAsStream("data/data.csv");
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                if (i < currentLine) {
+                    i++;
+                } else if (i >= currentLine) {
+                    if (i >= end) {
+                        currentLine = i;
+                        break;
+                    } else {
+                        i++;
+                        String[] user = line.split(",");
+                        creeUtilisateur(user[2], user[1], user[0]);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+//        for (int i = 0; i < nb; i++) {
+//            creeUtilisateur("logTest" + i, "test" + i, "test" + i);
+//        }
+    }
+
+    public void creerUtilisateursDeTest() {
+        creeUtilisateur("admin", "admin", "admin", "admin");
+    }
+
+    public Utilisateur creeUtilisateur(String nom, String prenom, String login) {
+        if (!testUser(login)) {
+            Utilisateur u = new Utilisateur(login, nom, prenom);
+            em.persist(u);
+            return u;
+        }
+        return null;
+    }
+
+    public Utilisateur creeUtilisateur(String nom, String prenom, String login, String password) {
+        if (!testUser(login)) {
+            Utilisateur u = new Utilisateur(login, nom, prenom, password);
+            em.persist(u);
+            return u;
+        }
+        return null;
+    }
+
+    public Musique creeMusique(String titre, String auteur, double prix) {
+        Musique m = new Musique(titre, auteur, prix);
+        em.persist(m);
+        return m;
+    }
+    
+    public void chargerMusiquesDeBase() {
+        String musiquesDeBase = "";
+        try{
+            InputStream flux = new FileInputStream("ressources/musiquesDeBase.txt"); 
+            InputStreamReader lecture = new InputStreamReader(flux);
+            try (BufferedReader buff = new BufferedReader(lecture)) {
+                String ligne;
+                while ((ligne=buff.readLine())!=null){
+                    musiquesDeBase += ligne;
+                }
+            }
+        }		
+        catch (IOException e){System.out.println(e.toString());}
+        
+        String[] listeMusiquesDeBase = musiquesDeBase.split(",");
+        for (String loop : listeMusiquesDeBase) {
+            String[] musique = loop.split("-");
+            musique[0].replaceAll("\"","");
+            musique[1].replaceAll("\"","");
+            creeMusique(musique[0],musique[1], 0);
+        }
+    }
+    
+    public Collection<Utilisateur> getAllUsers() {
+        // Exécution d'une requête équivalente à un select *
+        Query q = em.createQuery("select u from Utilisateur u");
+        return q.getResultList();
+    }
+
+    public Collection<Utilisateur> getUsers(int index) {
+        // Exécution d'une requête équivalente à un select *
+        Query q = em.createQuery("select u from Utilisateur u");
+        q.setMaxResults(10);
+        q.setFirstResult(index * 10);
+        return q.getResultList();
+    }
+
+    public String listUsersToJson(Collection<Utilisateur> listUsers) {
+        String json = "[";
+        for (Utilisateur u : listUsers) {
+            json += "{\"login\":\"" + u.getLogin() + "\", \"firstname\":\"" + u.getFirstname() + "\", \"lastname\":\"" + u.getLastname() + "\"},";
+        }
+        json = json.substring(0, json.length() - 1);
+        json += "]";
+
+        return json;
+    }
+
+    public Collection<Utilisateur> getUserByLogin(String login) {
+        // Exécution d'une requête équivalente à un select *
+        Query q = em.createQuery("select u from Utilisateur u where u.login='" + login + "'");
+        return q.getResultList();
+    }
+
+    public void removeUser(String login) {
+        Collection<Utilisateur> liste = getUserByLogin(login);
+        for (Utilisateur utilisateur : liste) {
+            em.remove(utilisateur);
+        }
+    }
+
+    public int editUser(String nom, String prenom, String login) {
+        Query q = em.createQuery("update Utilisateur u set u.firstname='" + prenom + "', u.lastname='" + nom + "' where u.login='" + login + "'");
+        int num = q.executeUpdate();
+        return num;
+    }
+
+    public boolean testUser(String login) {
+        Collection<Utilisateur> listeTest = getAllUsers();
+        boolean exist = false;
+        for (Utilisateur u : listeTest) {
+            if (u.getLogin().equals(login)) {
+                exist = true;
+            }
+        }
+        return exist;
+    }
+
+    public Utilisateur testLogin(String login, String password) {
+        Query q = em.createQuery("select u from Utilisateur u where u.login='" + login + "' and u.password='"+password+"'");
+        Utilisateur user = null;
+        if (q.getResultList().size() > 0) {
+            user = (Utilisateur) q.getResultList().get(0);
+        }
+        return user;        
+//        Collection<Utilisateur> liste = getAllUsers();
+//        Utilisateur user = null;
+//        for (Utilisateur u : liste) {
+//            if (u.getLogin().equals(login)) {
+//                if (u.getPassword().equals(password)) {
+//                    user = u;
+//                }
+//            }
+//        }
+    }
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
+}
