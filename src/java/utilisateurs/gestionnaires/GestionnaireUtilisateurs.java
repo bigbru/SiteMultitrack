@@ -96,7 +96,7 @@ public class GestionnaireUtilisateurs {
     public void chargerMusiquesDeBase() {
         String musiquesDeBase = "";
         try{
-            InputStream flux = new FileInputStream("ressources/musiquesDeBase.txt"); 
+            InputStream flux = new FileInputStream("data/musiquesDeBase.txt"); 
             InputStreamReader lecture = new InputStreamReader(flux);
             try (BufferedReader buff = new BufferedReader(lecture)) {
                 String ligne;
