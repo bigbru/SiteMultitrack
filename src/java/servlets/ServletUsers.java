@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilisateurs.gestionnaires.GestionnaireSongs;
 import utilisateurs.gestionnaires.GestionnaireUtilisateurs;
 import utilisateurs.modeles.Utilisateur;
 
@@ -21,6 +22,7 @@ public class ServletUsers extends HttpServlet {
     // ici injection de code ! On n'initialise pas !
     @EJB
     private GestionnaireUtilisateurs gestionnaireUtilisateurs;
+    private GestionnaireSongs gestionnaireSongs;
     private int currentPagination = 0;
     Utilisateur loggedUser = null;
 
@@ -40,19 +42,13 @@ public class ServletUsers extends HttpServlet {
 
         if (action != null) {
             switch (action) {
-                case "testForLogin":
-                    if (loggedUser != null) {
-                        out.print(gestionnaireUtilisateurs.listUsersToJson(gestionnaireUtilisateurs.getUsers(currentPagination)));
-                    } else {
-                        out.print(false);
-                    }
-                    break;
-
                 case "loginUtilisateur":
                     Utilisateur userLog = gestionnaireUtilisateurs.testLogin(request.getParameter("loginSession"), request.getParameter("passwordSession"));
                     if (userLog != null) {
                         loggedUser = userLog;
-                        out.print(gestionnaireUtilisateurs.listUsersToJson(gestionnaireUtilisateurs.getUsers(currentPagination)));
+                        out.print(true);
+                        //afficher les musiques mais probleme static
+                        //out.print(GestionnaireSongs.listSongsToJson(GestionnaireSongs.getSongs(0)));
                     } else {
                         out.print(false);
                     }
@@ -62,6 +58,33 @@ public class ServletUsers extends HttpServlet {
                     loggedUser = null;
                     break;
 
+                case "signUpUser": {
+                    Utilisateur u = gestionnaireUtilisateurs.creeUtilisateur(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("login"), request.getParameter("pass"));
+                    if (u != null) {
+                        loggedUser = u;
+                        // probleme static affichage songs json static view
+                        out.print(true);
+                    } else {
+                        out.print(false);
+                    }
+                    break;
+                }
+
+                case "testForLogin":
+                    if (loggedUser != null) {
+                        out.print(true);
+                    } else {
+                        out.print(false);
+                    }
+                    break;
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 case "chercherParLogin": {
                     Collection<Utilisateur> liste = gestionnaireUtilisateurs.getUserByLogin(request.getParameter("login"));
                     currentPagination = 0;
@@ -98,16 +121,7 @@ public class ServletUsers extends HttpServlet {
                     }
                     break;
                 }
-                case "signUpUser": {
-                    Utilisateur u = gestionnaireUtilisateurs.creeUtilisateur(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("login"), request.getParameter("pass"));
-                    if (u != null) {
-                        loggedUser = u;
-                        out.print(gestionnaireUtilisateurs.listUsersToJson(gestionnaireUtilisateurs.getUsers(currentPagination)));
-                    } else {
-                        out.print(false);
-                    }
-                    break;
-                }
+
                 case "deleteUser": {
                     gestionnaireUtilisateurs.removeUser(request.getParameter("login"));
                     currentPagination = 0;

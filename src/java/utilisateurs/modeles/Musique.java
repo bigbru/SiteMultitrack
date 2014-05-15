@@ -19,16 +19,16 @@ public class Musique implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    private String Titre;
-    private String Auteur;
+    private String titre;
+    private String auteur;
     private double prix;
     
     public Musique() {
     }
 
     public Musique(String Titre, String Auteur, double prix) {
-        this.Titre = Titre;
-        this.Auteur = Auteur;
+        this.titre = Titre;
+        this.auteur = Auteur;
         this.prix = prix;
     }
 
@@ -41,19 +41,19 @@ public class Musique implements Serializable {
     }
 
     public String getTitre() {
-        return Titre;
+        return titre;
     }
 
     public void setTitre(String Titre) {
-        this.Titre = Titre;
+        this.titre = Titre;
     }
 
     public String getAuteur() {
-        return Auteur;
+        return auteur;
     }
 
     public void setAuteur(String Auteur) {
-        this.Auteur = Auteur;
+        this.auteur = Auteur;
     }
 
     public double getPrix() {

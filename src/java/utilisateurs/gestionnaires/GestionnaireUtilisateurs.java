@@ -1,7 +1,6 @@
 package utilisateurs.gestionnaires;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import utilisateurs.modeles.Musique;
 import utilisateurs.modeles.Utilisateur;
 
 @Stateless
@@ -60,12 +58,9 @@ public class GestionnaireUtilisateurs {
                 }
             }
         }
-//        for (int i = 0; i < nb; i++) {
-//            creeUtilisateur("logTest" + i, "test" + i, "test" + i);
-//        }
     }
 
-    public void creerUtilisateursDeTest() {
+    public void creerUtilisateursDeBase() {
         creeUtilisateur("admin", "admin", "admin", "admin");
     }
 
@@ -85,35 +80,6 @@ public class GestionnaireUtilisateurs {
             return u;
         }
         return null;
-    }
-
-    public Musique creeMusique(String titre, String auteur, double prix) {
-        Musique m = new Musique(titre, auteur, prix);
-        em.persist(m);
-        return m;
-    }
-    
-    public void chargerMusiquesDeBase() {
-        String musiquesDeBase = "";
-        try{
-            InputStream flux = new FileInputStream("data/musiquesDeBase.txt"); 
-            InputStreamReader lecture = new InputStreamReader(flux);
-            try (BufferedReader buff = new BufferedReader(lecture)) {
-                String ligne;
-                while ((ligne=buff.readLine())!=null){
-                    musiquesDeBase += ligne;
-                }
-            }
-        }		
-        catch (IOException e){System.out.println(e.toString());}
-        
-        String[] listeMusiquesDeBase = musiquesDeBase.split(",");
-        for (String loop : listeMusiquesDeBase) {
-            String[] musique = loop.split("-");
-            musique[0].replaceAll("\"","");
-            musique[1].replaceAll("\"","");
-            creeMusique(musique[0],musique[1], 0);
-        }
     }
     
     public Collection<Utilisateur> getAllUsers() {
@@ -177,18 +143,6 @@ public class GestionnaireUtilisateurs {
         if (q.getResultList().size() > 0) {
             user = (Utilisateur) q.getResultList().get(0);
         }
-        return user;        
-//        Collection<Utilisateur> liste = getAllUsers();
-//        Utilisateur user = null;
-//        for (Utilisateur u : liste) {
-//            if (u.getLogin().equals(login)) {
-//                if (u.getPassword().equals(password)) {
-//                    user = u;
-//                }
-//            }
-//        }
+        return user;
     }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 }

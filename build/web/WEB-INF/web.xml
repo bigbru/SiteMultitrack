@@ -8,9 +8,17 @@
         <servlet-name>ServletUsers</servlet-name>
         <servlet-class>servlets.ServletUsers</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletSongs</servlet-name>
+        <servlet-class>servlets.ServletSongs</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletUsers</servlet-name>
         <url-pattern>/ServletUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletSongs</servlet-name>
+        <url-pattern>/ServletSongs</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
