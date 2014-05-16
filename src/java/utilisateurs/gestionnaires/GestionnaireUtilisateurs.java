@@ -109,7 +109,8 @@ public class GestionnaireUtilisateurs {
 
     public Collection<Utilisateur> getUserByLogin(String login) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Utilisateur u where u.login='" + login + "'");
+        Query q = em.createQuery("select u from Utilisateur u where u.login = :login");
+        q.setParameter("login", login);
         return q.getResultList();
     }
 
@@ -121,7 +122,10 @@ public class GestionnaireUtilisateurs {
     }
 
     public int editUser(String nom, String prenom, String login) {
-        Query q = em.createQuery("update Utilisateur u set u.firstname='" + prenom + "', u.lastname='" + nom + "' where u.login='" + login + "'");
+        Query q = em.createQuery("update Utilisateur u set u.firstname = :prenom, u.lastname = :nom where u.login = :login");
+        q.setParameter("prenom", prenom);
+        q.setParameter("nom", nom);
+        q.setParameter("login", login);
         int num = q.executeUpdate();
         return num;
     }
@@ -138,7 +142,10 @@ public class GestionnaireUtilisateurs {
     }
 
     public Utilisateur testLogin(String login, String password) {
-        Query q = em.createQuery("select u from Utilisateur u where u.login='" + login + "' and u.password='"+password+"'");
+        Query q = em.createQuery("select u from Utilisateur u where u.login = :login and u.password = :password");
+        q.setParameter("password", password);
+        q.setParameter("login", login);
+        
         Utilisateur user = null;
         if (q.getResultList().size() > 0) {
             user = (Utilisateur) q.getResultList().get(0);
