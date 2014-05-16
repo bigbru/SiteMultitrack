@@ -44,7 +44,7 @@ $(function() {
             var obj = json[i];
             $("#tableListSongs").append('\
                     <tr id="edit' + obj.id + 'Main">\
-                        <td class="tdAuteur">' + obj.auteur + '</td>\
+                        <td class="tdArtiste">' + obj.artiste + '</td>\
                         <td class="tdTitre">' + obj.titre + '</td>\
                         <td class="tdPrix">' + obj.prix + '</td>\
                         <td class="tdUtils">\
@@ -125,12 +125,12 @@ $(function() {
         $.ajax({
             type: "POST",
             url: "ServletSongs",
-            data: "action=chercherParAuteur&auteur=" + $("#inputSongsSearch").val(),
+            data: "action=chercherParArtiste&artiste=" + $("#inputSongsSearch").val(),
             success: function(msg) {
                 if (msg !== "false")
                     refreshListSongs(JSON.parse(msg));
                 else
-                    alert("Auteur introuvable");
+                    alert("Artiste introuvable");
             }
         });
     });

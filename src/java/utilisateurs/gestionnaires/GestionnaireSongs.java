@@ -13,10 +13,7 @@ import utilisateurs.modeles.Musique;
 
 @Stateless
 public class GestionnaireSongs {
-
-    // Ici injection de code : on n'initialise pas. L'entity manager sera créé
-    // à partir du contenu de persistence.xml
-    @PersistenceContext
+    @PersistenceContext(unitName = "Tp2PU")
     private EntityManager em;
 
     public Musique creeMusique(String artiste, String titre, double prix) {
@@ -37,9 +34,6 @@ public class GestionnaireSongs {
             is = getClass().getClassLoader().getResourceAsStream("data/listeChansons.txt");
             br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
-                
-                System.out.println(line);
-                
                 if (end) {
                     break;
                 } else {
@@ -47,7 +41,7 @@ public class GestionnaireSongs {
                         end = true;
                     } else {
                         String[] song = line.split("-");
-                        creeMusique(song[0], song[1], 1);
+                        Musique m = creeMusique(song[0], song[1], 1);
                     }
                 }
             }
@@ -123,5 +117,17 @@ public class GestionnaireSongs {
             }
         }
         return exist;
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
+    }
+
+    public void persist1(Object object) {
+        em.persist(object);
+    }
+
+    public void persist2(Object object) {
+        em.persist(object);
     }
 }

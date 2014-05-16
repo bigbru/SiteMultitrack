@@ -21,7 +21,7 @@ public class Musique implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     private String artiste;
     private String titre;
     private double prix;
@@ -35,7 +35,7 @@ public class Musique implements Serializable {
         this.prix = prix;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -51,7 +51,7 @@ public class Musique implements Serializable {
         return titre;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -70,7 +70,7 @@ public class Musique implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) id;
+        hash += (Long) id;
         return hash;
     }
 
