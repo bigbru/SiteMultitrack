@@ -28,7 +28,7 @@
 
     <table class="table table-striped" id="tableListMain">
         <thead>
-        <th>Auteur</th>
+        <th>Artiste</th>
         <th>Titre</th>
         <th>Prix</th>
         <th>Utils</th>
