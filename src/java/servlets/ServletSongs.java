@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utilisateurs.gestionnaires.GestionnaireSongs;
-import utilisateurs.modeles.Musique;
+import utilisateurs.modeles.Chanson;
 
 /**
  *
@@ -48,7 +48,7 @@ public class ServletSongs extends HttpServlet {
                     break;
 
                 case "chercherParArtiste": {
-                    Collection<Musique> liste = gestionnaireSongs.getSongsByAuthor(request.getParameter("artiste"));
+                    Collection<Chanson> liste = gestionnaireSongs.getSongsByAuthor(request.getParameter("artiste"));
                     currentPagination = 0;
                     if (liste.size() <= 0) {
                         out.print(false);
@@ -61,7 +61,7 @@ public class ServletSongs extends HttpServlet {
                 case "nextPage": {
                     if (gestionnaireSongs.getSongs(currentPagination + 1).size() > 0) {
                         currentPagination++;
-                        Collection<Musique> liste = gestionnaireSongs.getSongs(currentPagination);
+                        Collection<Chanson> liste = gestionnaireSongs.getSongs(currentPagination);
                         out.print(gestionnaireSongs.listSongsToJson(liste));
                     } else {
                         out.print(false);
@@ -72,11 +72,11 @@ public class ServletSongs extends HttpServlet {
                 case "prevPage": {
                     if (currentPagination > 0) {
                         currentPagination--;
-                        Collection<Musique> liste = gestionnaireSongs.getSongs(currentPagination);
+                        Collection<Chanson> liste = gestionnaireSongs.getSongs(currentPagination);
                         out.print(gestionnaireSongs.listSongsToJson(liste));
                     } else {
                         currentPagination = 0;
-                        Collection<Musique> liste = gestionnaireSongs.getSongs(currentPagination);
+                        Collection<Chanson> liste = gestionnaireSongs.getSongs(currentPagination);
                         out.print(gestionnaireSongs.listSongsToJson(liste));
                     }
                     break;
@@ -84,14 +84,14 @@ public class ServletSongs extends HttpServlet {
 
                 case "refreshList": {
                     currentPagination = 0;
-                    Collection<Musique> liste = gestionnaireSongs.getSongs(currentPagination);
+                    Collection<Chanson> liste = gestionnaireSongs.getSongs(currentPagination);
                     out.print(gestionnaireSongs.listSongsToJson(liste));
                     break;
                 }
                 
                 case "suscribe": {
                     currentPagination = 0;
-                    Collection<Musique> liste = gestionnaireSongs.getSongById(request.getParameter("id"));
+                    Collection<Chanson> liste = gestionnaireSongs.getSongById(request.getParameter("id"));
                     out.print("Vous etes maintenant abonné (!! à implémenter dans ServletSongs !!)");
                     break;
                 }

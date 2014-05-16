@@ -6,10 +6,14 @@
 package utilisateurs.modeles;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -26,7 +30,16 @@ public class Utilisateur implements Serializable {
     private String lastname;
     private String login;
     private String password;
-
+    @OneToMany
+    private ArrayList<Chanson> listeChansons;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date finAbonnement;
+    
+    private boolean isAbonner;
+    
+    
+    
     public Utilisateur() {
     }
 
@@ -43,6 +56,30 @@ public class Utilisateur implements Serializable {
         this.password = password;
     }
 
+    public ArrayList<Chanson> getListeChansons() {
+        return listeChansons;
+    }
+
+    public void setListeChansons(ArrayList<Chanson> listeChansons) {
+        this.listeChansons = listeChansons;
+    }
+
+    public Date getFinAbonnement() {
+        return finAbonnement;
+    }
+
+    public void setFinAbonnement(Date finAbonnement) {
+        this.finAbonnement = finAbonnement;
+    }
+
+    public boolean isIsAbonner() {
+        return isAbonner;
+    }
+
+    public void setIsAbonner(boolean isAbonner) {
+        this.isAbonner = isAbonner;
+    }
+    
     public String getLogin() {
         return login;
     }

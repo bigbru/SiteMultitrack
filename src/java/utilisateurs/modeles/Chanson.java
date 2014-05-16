@@ -7,29 +7,38 @@
 package utilisateurs.modeles;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Dam
  */
 @Entity
-public class Musique implements Serializable {
+public class Chanson implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String artiste;
+ 
+    @OneToOne
+    private Artiste artiste;
+    
+    @OneToMany
+    private ArrayList<Piste> pistes;
+    
     private String titre;
     private double prix;
 
-    public Musique() {
+    public Chanson() {
     }
 
-    public Musique(String titre, String artiste, double prix) {
+    public Chanson(String titre, Artiste artiste, double prix) {
         this.titre = titre;
         this.artiste = artiste;
         this.prix = prix;
@@ -39,7 +48,7 @@ public class Musique implements Serializable {
         return id;
     }
 
-    public String getArtiste() {
+    public Artiste getArtiste() {
         return artiste;
     }
 
@@ -55,7 +64,7 @@ public class Musique implements Serializable {
         this.id = id;
     }
     
-    public void setArtiste(String artiste) {
+    public void setArtiste(String Artiste) {
         this.artiste = artiste;
     }
 
@@ -66,6 +75,15 @@ public class Musique implements Serializable {
     public void setPrix(double prix) {
         this.prix = prix;
     }
+
+    public ArrayList<Piste> getPistes() {
+        return pistes;
+    }
+
+    public void setPistes(ArrayList<Piste> pistes) {
+        this.pistes = pistes;
+    }
+    
     
     @Override
     public int hashCode() {
@@ -77,10 +95,10 @@ public class Musique implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Musique)) {
+        if (!(object instanceof Chanson)) {
             return false;
         }
-        Musique other = (Musique) object;
+        Chanson other = (Chanson) object;
         if (this.id != other.id) {
             return false;
         }

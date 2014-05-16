@@ -9,15 +9,22 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import utilisateurs.modeles.Musique;
+import utilisateurs.modeles.Artiste;
+import utilisateurs.modeles.Chanson;
 
 @Stateless
 public class GestionnaireSongs {
     @PersistenceContext(unitName = "Tp2PU")
     private EntityManager em;
 
-    public Musique creeMusique(String artiste, String titre, double prix) {
-        Musique m = new Musique(titre, artiste, prix);
+    public Chanson creeMusique(Artiste artiste, String titre, double prix) {
+        Chanson m = new Chanson(titre, artiste, prix);
+        em.persist(m);
+        return m;
+    }
+    
+    public Artiste creeArtiste(String nom) {
+        Artiste m = new Artiste(nom);
         em.persist(m);
         return m;
     }
@@ -41,7 +48,8 @@ public class GestionnaireSongs {
                         end = true;
                     } else {
                         String[] song = line.split("-");
-                        Musique m = creeMusique(song[0], song[1], 1);
+                        Artiste a = creeArtiste(song[0]);
+                        creeMusique(a , song[1], 1);
                     }
                 }
             }
@@ -58,24 +66,24 @@ public class GestionnaireSongs {
         }
     }
 
-    public Collection<Musique> getAllSongs() {
+    public Collection<Chanson> getAllSongs() {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Musique u");
+        Query q = em.createQuery("select u from Chanson u");
         return q.getResultList();
     }
 
-    public Collection<Musique> getSongs(int index) {
+    public Collection<Chanson> getSongs(int index) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Musique u");
+        Query q = em.createQuery("select u from Chanson u");
         q.setMaxResults(10);
         q.setFirstResult(index * 10);
         return q.getResultList();
     }
 
-    public String listSongsToJson(Collection<Musique> listSongs) {
+    public String listSongsToJson(Collection<Chanson> listSongs) {
         String json = "[";
-        for (Musique u : listSongs) {
-            json += "{\"id\":\"" + u.getId() + "\", \"artiste\":\"" + u.getArtiste() + "\", \"titre\":\"" + u.getTitre() + "\", \"prix\":\"" + u.getPrix() + "\"},";
+        for (Chanson u : listSongs) {
+            json += "{\"id\":\"" + u.getId() + "\", \"artiste\":\"" + u.getArtiste().getNom() + "\", \"titre\":\"" + u.getTitre() + "\", \"prix\":\"" + u.getPrix() + "\"},";
         }
         json = json.substring(0, json.length() - 1);
         json += "]";
@@ -83,35 +91,35 @@ public class GestionnaireSongs {
         return json;
     }
 
-    public Collection<Musique> getSongsByAuthor(String artiste) {
+    public Collection<Chanson> getSongsByAuthor(String artiste) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Musique u where u.artiste='" + artiste + "'");
+        Query q = em.createQuery("select u from Chanson u where u.artiste='" + artiste + "'");
         return q.getResultList();
     }
 
-    public Collection<Musique> getSongById(String id) {
+    public Collection<Chanson> getSongById(String id) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Musique u where u.id='" + id + "'");
+        Query q = em.createQuery("select u from Chanson u where u.id='" + id + "'");
         return q.getResultList();
     }
     
     public void removeSong(String id) {
-        Collection<Musique> liste = getSongById(id);
-        for (Musique song : liste) {
+        Collection<Chanson> liste = getSongById(id);
+        for (Chanson song : liste) {
             em.remove(song);
         }
     }
 
     public int editSong(String id, String artiste, String titre, String prix) {
-        Query q = em.createQuery("update Musique u set u.artiste='" + artiste + "', u.titre='" + titre + "', u.prix='" + prix + "' where u.id='" + id + "'");
+        Query q = em.createQuery("update Chanson u set u.artiste='" + artiste + "', u.titre='" + titre + "', u.prix='" + prix + "' where u.id='" + id + "'");
         int num = q.executeUpdate();
         return num;
     }
 
     public boolean testSong(int id) {
-        Collection<Musique> listeTest = getAllSongs();
+        Collection<Chanson> listeTest = getAllSongs();
         boolean exist = false;
-        for (Musique u : listeTest) {
+        for (Chanson u : listeTest) {
             if (u.getId() == id) {
                 exist = true;
             }
