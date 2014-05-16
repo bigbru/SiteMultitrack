@@ -39,6 +39,7 @@ $(function() {
     }
 
     function refreshListSongs(json) {
+        $("#contentLogScreen").hide();
         $("#tableListSongs").html("");
         for (var i = 0; i < json.length; i++) {
             var obj = json[i];
@@ -99,7 +100,7 @@ $(function() {
             data: "action=loginUtilisateur&loginSession=" + $("#loginSession").val() + "&passwordSession=" + $("#passwordSession").val(),
             success: function(msg) {
                 if (msg !== "false") {
-                    getSongsIfLog();
+                    logOutDisplay(false);
                 } else
                     alert("login invalide");
             }

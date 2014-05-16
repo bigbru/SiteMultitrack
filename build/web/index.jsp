@@ -17,15 +17,25 @@
                 </div>
             </div>
             <div class="form-group">
+                <button type="button" class="btn btn-default" id="btnSearchSongs">Rechercher</button>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-default" id="btnSearchSongs">Rechercher</button>
+                    <button type="button" class="btn btn-primary" id="btnRefreshList"><span class="glyphicon glyphicon-usd"></span> Boutique</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <h2>Liste des musiques <button type="button" class="btn btn-primary btn-xs" id="btnRefreshList" href=""><span class="glyphicon glyphicon-refresh"></span></button></h2>
+    <div id="contentLogScreen">
+        <div class="jumbotron">
+            <h1>Bienvenue</h1>
+            <p>Blablabla Blablabla Blablabla</p>
+            <p>BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla Blablabla</p>
+        </div> 
+    </div>
 
+    <div id="tableSongsDiv"></div>
     <table class="table table-striped" id="tableListMain">
         <thead>
         <th>Artiste</th>
@@ -35,12 +45,12 @@
         </thead>
         <tbody id="tableListSongs"></tbody>
     </table>
-    
+
     <ul class="pager">
         <li id="liPrevBtn"><a href="#" id="btnPrevPage">Previous</a></li>
         <li id="liNextBtn"><a href="#" id="btnNextPage">Next</a></li>
     </ul>
-    
+
 </div>
 <div id="contentWithoutLog">
     <div class="jumbotron">
@@ -59,28 +69,28 @@
                         <input type="text" class="form-control" id="signUpLogin" placeholder="Login">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="signUpNom" class="col-sm-2 control-label">Nom</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="signUpNom" placeholder="Nom">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="signUpPrenom" class="col-sm-2 control-label">Prenom</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="signUpPrenom" placeholder="Prenom">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="signUpPass" class="col-sm-2 control-label">Mot de passe</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="signUpPass" placeholder="Prenom">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="button" id="btnCreateNewUser" class="btn btn-default">S'inscrire</button>

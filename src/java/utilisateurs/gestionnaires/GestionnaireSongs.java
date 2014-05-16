@@ -93,8 +93,8 @@ public class GestionnaireSongs {
 
     public Collection<Chanson> getSongsByStr(String str) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Chanson u where u.artiste.nom LIKE :str OR u.titre LIKE :str");
-        q.setParameter("str", "%"+str+"%"); 
+        Query q = em.createQuery("select u from Chanson u where UPPER(u.artiste.nom) LIKE :str OR UPPER(u.titre) LIKE :str");
+        q.setParameter("str", "%"+str.toUpperCase()+"%"); 
         return q.getResultList();
     }
 
