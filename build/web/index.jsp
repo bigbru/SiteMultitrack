@@ -13,12 +13,12 @@
         <div class="form-inline" role="form">
             <div class="form-group">
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="inputSongsSearch" placeholder="Artiste">
+                    <input type="text" class="form-control" id="inputSongsSearch" placeholder="Artiste / Titre">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-default" id="btnSearchSongsByArtist">Rechercher</button>
+                    <button type="button" class="btn btn-default" id="btnSearchSongs">Rechercher</button>
                 </div>
             </div>
         </div>

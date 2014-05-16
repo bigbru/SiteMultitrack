@@ -91,15 +91,17 @@ public class GestionnaireSongs {
         return json;
     }
 
-    public Collection<Chanson> getSongsByAuthor(String artiste) {
+    public Collection<Chanson> getSongsByStr(String str) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Chanson u where u.artiste='" + artiste + "'");
+        Query q = em.createQuery("select u from Chanson u where u.artiste.nom LIKE :str OR u.titre LIKE :str");
+        q.setParameter("str", "%"+str+"%"); 
         return q.getResultList();
     }
 
     public Collection<Chanson> getSongById(String id) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Chanson u where u.id='" + id + "'");
+        Query q = em.createQuery("select u from Chanson u where u.id=:id");
+        q.setParameter("id", id); 
         return q.getResultList();
     }
     
@@ -111,7 +113,11 @@ public class GestionnaireSongs {
     }
 
     public int editSong(String id, String artiste, String titre, String prix) {
-        Query q = em.createQuery("update Chanson u set u.artiste='" + artiste + "', u.titre='" + titre + "', u.prix='" + prix + "' where u.id='" + id + "'");
+        Query q = em.createQuery("update Chanson u set u.artiste = :artiste, u.titre = :titre, u.prix = :prix where u.id = :id");
+        q.setParameter("artiste", artiste);
+        q.setParameter("titre", titre);
+        q.setParameter("prix", prix);
+        q.setParameter("id", id);
         int num = q.executeUpdate();
         return num;
     }

@@ -121,16 +121,16 @@ $(function() {
     // test si log puis affiche songs
     getSongsIfLog();
 
-    $("#btnSearchSongsByArtist").click(function() {
+    $("#btnSearchSongs").click(function() {
         $.ajax({
             type: "POST",
             url: "ServletSongs",
-            data: "action=chercherParArtiste&artiste=" + $("#inputSongsSearch").val(),
+            data: "action=chercherChanson&str=" + $("#inputSongsSearch").val(),
             success: function(msg) {
                 if (msg !== "false")
                     refreshListSongs(JSON.parse(msg));
                 else
-                    alert("Artiste introuvable");
+                    alert("Introuvable");
             }
         });
     });
