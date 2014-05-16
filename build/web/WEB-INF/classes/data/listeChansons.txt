@@ -42,7 +42,7 @@ Franz Ferdinand - Take Me Out
 Guns and Roses - Welcome to the jungle
 Heart  - Barracuda
 Helmet  - Unsung [Live]
-Hey You (The Exies)
+The Exies - Hey You
 Incubus  - Stellar
 Iron Maiden - The Trooper
 James Brown - Sex Machine
@@ -88,11 +88,11 @@ Rage Against the Machine - Bulls on Parade
 Ram Jam - Black Betty
 Ramones - I Wanna Be Sedated
 Ramones - Rockaway Beach
-Ratt  - Round and Round
+Ratt - Round and Round
 Red Hot Chili Peppers - Suck My Kiss
 Red Hot Chili Peppers - Under The Bridge
 Red Hot chili Peppers - Give It Away
-Rush  - YYZ
+Rush - YYZ
 Santana - Black Magic Woman
 Simon and Garfunkel - the Sound Of Silence
 Slayer - Raining Blood
@@ -120,11 +120,11 @@ The Who - I Won't Get Fooled Again
 Trust - Antisocial
 Twisted Sister - I Wanna Rock
 Village People - YMCA
-Warrant  - Cherry Pie
+Warrant - Cherry Pie
 Weezer - My Name Is Jonas
 Weezer - Say It Aint So
 White Zombie - Thunder Kiss '65
-Wolfmother  - Woman
+Wolfmother - Woman
 Yes - Owner Of A Lonely Heart
 
 ./AC-DC - Highway To hell (live):

@@ -47,8 +47,8 @@ public class ServletSongs extends HttpServlet {
                     out.print(gestionnaireSongs.listSongsToJson(gestionnaireSongs.getSongs(currentPagination)));
                     break;
 
-                case "chercherParAuteur": {
-                    Collection<Musique> liste = gestionnaireSongs.getSongsByAuthor(request.getParameter("auteur"));
+                case "chercherParArtiste": {
+                    Collection<Musique> liste = gestionnaireSongs.getSongsByAuthor(request.getParameter("artiste"));
                     currentPagination = 0;
                     if (liste.size() <= 0) {
                         out.print(false);

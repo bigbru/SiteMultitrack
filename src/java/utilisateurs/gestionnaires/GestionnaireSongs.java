@@ -19,8 +19,8 @@ public class GestionnaireSongs {
     @PersistenceContext
     private EntityManager em;
 
-    public Musique creeMusique(String titre, String auteur, double prix) {
-        Musique m = new Musique(titre, auteur, prix);
+    public Musique creeMusique(String artiste, String titre, double prix) {
+        Musique m = new Musique(titre, artiste, prix);
         em.persist(m);
         return m;
     }
@@ -37,7 +37,10 @@ public class GestionnaireSongs {
             is = getClass().getClassLoader().getResourceAsStream("data/listeChansons.txt");
             br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
-                if (!end) {
+                
+                System.out.println(line);
+                
+                if (end) {
                     break;
                 } else {
                     if (line.contains("./")) {
@@ -48,7 +51,7 @@ public class GestionnaireSongs {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
             if (br != null) {
@@ -78,7 +81,7 @@ public class GestionnaireSongs {
     public String listSongsToJson(Collection<Musique> listSongs) {
         String json = "[";
         for (Musique u : listSongs) {
-            json += "{\"id\":\"" + u.getId() + "\", \"auteur\":\"" + u.getAuteur() + "\", \"titre\":\"" + u.getTitre() + "\", \"prix\":\"" + u.getPrix() + "\"},";
+            json += "{\"id\":\"" + u.getId() + "\", \"artiste\":\"" + u.getArtiste() + "\", \"titre\":\"" + u.getTitre() + "\", \"prix\":\"" + u.getPrix() + "\"},";
         }
         json = json.substring(0, json.length() - 1);
         json += "]";
@@ -86,9 +89,9 @@ public class GestionnaireSongs {
         return json;
     }
 
-    public Collection<Musique> getSongsByAuthor(String auteur) {
+    public Collection<Musique> getSongsByAuthor(String artiste) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Musique u where u.auteur='" + auteur + "'");
+        Query q = em.createQuery("select u from Musique u where u.artiste='" + artiste + "'");
         return q.getResultList();
     }
 
@@ -105,8 +108,8 @@ public class GestionnaireSongs {
         }
     }
 
-    public int editSong(String id, String auteur, String titre, String prix) {
-        Query q = em.createQuery("update Musique u set u.auteur='" + auteur + "', u.titre='" + titre + "', u.prix='" + prix + "' where u.id='" + id + "'");
+    public int editSong(String id, String artiste, String titre, String prix) {
+        Query q = em.createQuery("update Musique u set u.artiste='" + artiste + "', u.titre='" + titre + "', u.prix='" + prix + "' where u.id='" + id + "'");
         int num = q.executeUpdate();
         return num;
     }
