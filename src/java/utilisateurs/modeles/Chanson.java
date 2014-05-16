@@ -7,7 +7,7 @@
 package utilisateurs.modeles;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +30,7 @@ public class Chanson implements Serializable {
     private Artiste artiste;
     
     @OneToMany
-    private ArrayList<Piste> pistes;
+    private Collection<Piste> pistes;
     
     private String titre;
     private double prix;
@@ -76,11 +76,11 @@ public class Chanson implements Serializable {
         this.prix = prix;
     }
 
-    public ArrayList<Piste> getPistes() {
+    public Collection<Piste> getPistes() {
         return pistes;
     }
 
-    public void setPistes(ArrayList<Piste> pistes) {
+    public void setPistes(Collection<Piste> pistes) {
         this.pistes = pistes;
     }
     

@@ -6,7 +6,7 @@
 package utilisateurs.modeles;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +31,7 @@ public class Utilisateur implements Serializable {
     private String login;
     private String password;
     @OneToMany
-    private ArrayList<Chanson> listeChansons;
+    private Collection<Chanson> listeChansons;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date finAbonnement;
@@ -56,11 +56,11 @@ public class Utilisateur implements Serializable {
         this.password = password;
     }
 
-    public ArrayList<Chanson> getListeChansons() {
+    public Collection<Chanson> getListeChansons() {
         return listeChansons;
     }
 
-    public void setListeChansons(ArrayList<Chanson> listeChansons) {
+    public void setListeChansons(Collection<Chanson> listeChansons) {
         this.listeChansons = listeChansons;
     }
 
