@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
 
     function getSongsIfLog() {
         $.ajax({
@@ -14,7 +14,6 @@ $(function() {
                         success: function(msg) {
                             if (msg !== "false") {
                                 logOutDisplay(false);
-                                console.log(msg);
                                 refreshListSongs(JSON.parse(msg));
                             }
                         }
@@ -22,6 +21,14 @@ $(function() {
                 }
             }
         });
+    }
+
+    function hideForLog() {
+        $("#divTableListSongs").hide();
+        $("#divAbo").hide();
+        $("#contentLogScreen").hide();
+        $("#divUserInfo").hide();
+        $("#divUserPaiements").hide();
     }
 
     function checkIfLog() {
@@ -32,8 +39,8 @@ $(function() {
             success: function(msg) {
                 if (msg !== "false") {
                     logOutDisplay(false);
+                    hideForLog();
                     $("#contentLogScreen").show();
-                    $("#divTableListSongs").hide();
                 }
             }
         });
@@ -50,39 +57,77 @@ $(function() {
             $("#loginNavForm").hide();
             $("#contentWithLog").show();
             $("#contentWithoutLog").hide();
-            $("#divTableListSongs").hide();
+            hideForLog();
         }
     }
 
     function refreshListSongs(json) {
-        $("#contentLogScreen").hide();
+        hideForLog();
         $("#divTableListSongs").show();
         $("#tableListSongs").html("");
-        for (var i = 0; i < json.length; i++) {
-            var obj = json[i];
-            $("#tableListSongs").append('\
-                    <tr id="edit' + obj.id + 'Main">\
-                        <td class="tdArtiste">' + obj.artiste + '</td>\
-                        <td class="tdTitre">' + obj.titre + '</td>\
-                        <td class="tdPrix">' + obj.prix + '</td>\
-                        <td class="tdUtils">\
-                            <button type="button" class="btn btn-success suscribeBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-star"></span></button>\
-                        </td>\
-                    </tr>');
-        }
+        var btn;
+        var getIt;
+        var obj;
+        var objUser;
+
+        $.ajax({
+            type: "POST",
+            url: "ServletUsers",
+            data: "action=getSongs",
+            success: function(userSongs) {
+                var userJson = JSON.parse(userSongs);
+                for (var i = 0; i < json.length; i++) {
+                    btn = '';
+                    getIt = false;
+                    obj = json[i];
+                    for (var j = 0; j < userJson.length; j++) {
+                        objUser = userJson[j];
+                        if (objUser.id === obj.id) {
+                            getIt = true;
+                        }
+                    }
+
+                    btn = '<button type="button" class="btn btn-info infoModalBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-list-alt"></span></button> ';
+
+                    if (getIt) {
+                        btn += '<button type="button" class="btn btn-success playSongBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-ok"></span></button>';
+                    } else {
+                        btn += '<button type="button" class="btn btn-warning suscribeBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-usd"></span></button>';
+                    }
+
+                    $("#tableListSongs").append('\
+                        <tr id="edit' + obj.id + 'Main">\
+                            <td class="tdArtiste">' + obj.artiste + '</td>\
+                            <td class="tdTitre">' + obj.titre + '</td>\
+                            <td class="tdPrix">' + obj.prix + '€</td>\
+                            <td class="tdUtils">' + btn + '</td>\
+                        </tr>');
+                }
+            }
+        });
     }
 
-//    var createUserDisplay = false;
-//    $("#createUserBtn").click(function() {
-//        if (createUserDisplay) {
-//            $("#createUserDiv").hide();
-//            createUserDisplay = false;
-//        }
-//        else {
-//            $("#createUserDiv").show();
-//            createUserDisplay = true;
-//        }
-//    });
+    $(document).on('click', '.infoModalBtn', function() {
+        var id = $(this).attr('id');
+        $('#modalInfoSongTitle').html("TItre de la modal");
+        $('#modalInfoSongBody').html(id);
+        $('#modalInfoSong').modal('show');
+    });
+
+    $("#btnMyMusic").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "ServletUsers",
+            data: "action=getSongs",
+            success: function(msg) {
+                if (msg !== "false") {
+                    refreshListSongs(JSON.parse(msg));
+                } else {
+                    alert("Aucune musique");
+                }
+            }
+        });
+    });
 
     var signUpUserDisplay = false;
     $("#signUpUserBtn").click(function() {
@@ -94,11 +139,6 @@ $(function() {
             $("#signUpUserDiv").show();
             signUpUserDisplay = true;
         }
-    });
-
-    $("#logoBtn").click(function() {
-        $("#contentLogScreen").show();
-        $("#divTableListSongs").hide();
     });
 
     $(".inputsForSignUp").keyup(function(e) {
@@ -213,6 +253,30 @@ $(function() {
         });
     });
 
+    $("#btnAboForm").click(function() {
+        hideForLog();
+        $("#divAbo").show();
+
+        $.ajax({
+            type: "POST",
+            url: "ServletUsers",
+            data: "action=getAbo",
+            success: function(msg) {
+                if (msg != 'false') {
+                    // abonné afficher ses infos d'abonnements + choix pour s'abooner a vie
+                    if (msg != 'null') {
+                        $("#divAbo").html("Vous êtes abonné jusqu'au " + msg);
+                    } else {
+                        $("#divAbo").html("Vous êtes abonné à vie");
+                    }
+                } else {
+                    // pas abonné proposer form abo
+                    $("#divAbo").html(msg);
+                }
+            }
+        });
+    });
+
     $(document).on('click', '.suscribeBtn', function() {
         var id = $(this).attr('id');
         $.ajax({
@@ -225,21 +289,89 @@ $(function() {
         });
     });
 
-    $.ajax({
-        type: "POST",
-        url: "ServletSongs",
-        data: "action=getPages",
-        success: function(msg) {
-            if (msg !== "false") {
-                var jsonPages = JSON.parse(msg);
-                for (var i = 0; i < jsonPages.length; i++) {
-                    var obj = jsonPages[i];
-                    var nb = parseInt(obj.nb);
-                    var current = parseInt(obj.current);
-                    //if (current === 0) $("#liPrevBtn").addClass("disabled")
-                    //if (current === nb) $("#liNextBtn").addClass("disabled")
-                }
+    $(document).on('click', '.playSongBtn', function() {
+        var id = $(this).attr('id');
+        $.ajax({
+            type: "POST",
+            url: "ServletSongs",
+            data: "action=playSong&id=" + id,
+            success: function(msg) {
+                alert(msg);
             }
-        }
+        });
     });
+
+
+    $("#btnGetInfos").click(function() {
+        hideForLog();
+        $("#divUserInfo").show();
+        $("#divUserInfo").html("");
+        $.ajax({
+            type: "POST",
+            url: "ServletUsers",
+            data: "action=getInfos",
+            success: function(msg) {
+                $("#divUserInfo").html(msg);
+            }
+        });
+    });
+
+    $("#btnGetPaiements").click(function() {
+        hideForLog();
+        $("#divUserPaiements").show();
+        $("#divUserPaiements").html("");
+        $.ajax({
+            type: "POST",
+            url: "ServletUsers",
+            data: "action=getPaiements",
+            success: function(msg) {
+                $("#divUserPaiements").html(msg);
+            }
+        });
+    });
+
+
+//    $.ajax({
+//        type: "POST",
+//        url: "ServletSongs",
+//        data: "action=getPages",
+//        success: function(msg) {
+//            if (msg !== "false") {
+//                var jsonPages = JSON.parse(msg);
+//                for (var i = 0; i < jsonPages.length; i++) {
+//                    var obj = jsonPages[i];
+//                    var nb = parseInt(obj.nb);
+//                    var current = parseInt(obj.current);
+//                    //if (current === 0) $("#liPrevBtn").addClass("disabled")
+//                    //if (current === nb) $("#liNextBtn").addClass("disabled")
+//                }
+//            }
+//        }
+//    });
+
+
+//    $("#btnSearchSongs").autocomplete({
+//        minLength: 2,
+//        scrollHeight: 220,
+//        source: function(req, add) {
+//            $.ajax({
+//                url: 'ServletSongs',
+//                type: "get",
+//                dataType: 'json',
+//                data: 'action=chercherChanson&str=' + req.term,
+//                async: true,
+//                cache: true,
+//                success: function(data) {
+//                    var suggestions = [];
+//                    //process response  
+//                    $.each(data, function(i, val) {
+//                        suggestions.push({"id": val.id, "value": val.artiste});
+//                    });
+//                    //pass array to callback  
+//                    add(suggestions);
+//                }
+//            });
+//        }
+//    });
+
 });

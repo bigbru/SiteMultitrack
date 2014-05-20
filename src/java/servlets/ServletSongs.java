@@ -91,12 +91,19 @@ public class ServletSongs extends HttpServlet {
                 }
                 
                 case "suscribe": {
-                    currentPagination = 0;
-                    Collection<Chanson> liste = gestionnaireSongs.getSongById(request.getParameter("id"));
-                    out.print("Vous etes maintenant abonné (!! à implémenter dans ServletSongs !!)");
+                    System.out.println("suscribe !!!");
+                    Collection<Chanson> liste = gestionnaireSongs.getSongById(Long.parseLong(request.getParameter("id")));
+                    out.print("Abonner !");
                     break;
                 }
                 
+                case "playSong": {
+                    currentPagination = 0;
+                    Collection<Chanson> liste = gestionnaireSongs.getSongById(Long.parseLong(request.getParameter("id")));
+                    out.print("Jouer !");
+                    break;
+                }
+                        
                 case "getPages": {
                     String nbPages = Math.ceil(gestionnaireSongs.getAllSongs().size() / 10) + "";
                     out.print("[{\"nb\":\"" + nbPages + "\", \"current\":\"" + currentPagination + "\"}]");
@@ -104,6 +111,7 @@ public class ServletSongs extends HttpServlet {
                 }
             }
         }
+        out.close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

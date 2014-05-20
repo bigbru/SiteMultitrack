@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +17,7 @@ import utilisateurs.modeles.Chanson;
 
 @Stateless
 public class GestionnaireSongs {
+
     @PersistenceContext(unitName = "Tp2PU")
     private EntityManager em;
 
@@ -22,7 +26,7 @@ public class GestionnaireSongs {
         em.persist(m);
         return m;
     }
-    
+
     public Artiste creeArtiste(String nom) {
         Artiste m = new Artiste(nom);
         em.persist(m);
@@ -47,13 +51,15 @@ public class GestionnaireSongs {
                     if (line.contains("./")) {
                         end = true;
                     } else {
-                        String[] song = line.split("-");
-                        Artiste a = creeArtiste(song[0]);
-                        creeMusique(a , song[1], 1);
+                        if (line.split("-").length == 2) {
+                            String[] song = line.split("-");
+                            Artiste a = creeArtiste(song[0]);
+                            creeMusique(a, song[1], 3.99);
+                        }
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         } finally {
             if (br != null) {
@@ -68,13 +74,13 @@ public class GestionnaireSongs {
 
     public Collection<Chanson> getAllSongs() {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Chanson u");
+        Query q = em.createQuery("select u from Chanson u ORDER BY u.artiste");
         return q.getResultList();
     }
 
     public Collection<Chanson> getSongs(int index) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Chanson u");
+        Query q = em.createQuery("SELECT u FROM Chanson u ORDER BY u.artiste");
         q.setMaxResults(10);
         q.setFirstResult(index * 10);
         return q.getResultList();
@@ -94,18 +100,18 @@ public class GestionnaireSongs {
     public Collection<Chanson> getSongsByStr(String str) {
         // Exécution d'une requête équivalente à un select *
         Query q = em.createQuery("select u from Chanson u where UPPER(u.artiste.nom) LIKE :str OR UPPER(u.titre) LIKE :str");
-        q.setParameter("str", "%"+str.toUpperCase()+"%"); 
+        q.setParameter("str", "%" + str.toUpperCase() + "%");
         return q.getResultList();
     }
 
-    public Collection<Chanson> getSongById(String id) {
+    public Collection<Chanson> getSongById(Long id) {
         // Exécution d'une requête équivalente à un select *
         Query q = em.createQuery("select u from Chanson u where u.id=:id");
-        q.setParameter("id", id); 
+        q.setParameter("id", id);
         return q.getResultList();
     }
-    
-    public void removeSong(String id) {
+
+    public void removeSong(Long id) {
         Collection<Chanson> liste = getSongById(id);
         for (Chanson song : liste) {
             em.remove(song);

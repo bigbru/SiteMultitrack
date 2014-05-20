@@ -4,7 +4,8 @@
     Author     : Dam
 --%>
 
-<!-- Ne pas oublier cette ligne sinon tous les tags de la JSTL seront ignorés ! -->
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!-- Ne pas oublier cette ligne sinon tous les tags de la JSTL seront ignorÃ©s ! -->
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <jsp:include page="header.jsp"/>
@@ -21,12 +22,34 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-primary" id="btnRefreshList"><span class="glyphicon glyphicon-usd"></span> Boutique</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-music"></span> Boutique <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" id="btnRefreshList">Musiques</a></li>
+                        <li><a href="#" id="btnAboForm">Abonnements</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-home"></span> Mon compte <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" id="btnMyMusic">Mes musiques</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" id="btnGetInfos">Mes infos</a></li>
+                        <li><a href="#" id="btnGetPaiements">Mes moyens de paiement</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="divAbo"></div>
+    <div id="divUserInfo"></div>
+    <div id="divUserPaiements"></div>
     <div id="contentLogScreen">
         <div class="jumbotron">
             <h1>Bienvenue</h1>
@@ -36,7 +59,7 @@
     </div>
 
     <div id="divTableListSongs">
-        <table class="table table-striped" id="tableListMain">
+        <table class="table table-striped tablesorter" id="tableListMain">
             <thead>
             <th>Artiste</th>
             <th>Titre</th>
@@ -58,7 +81,7 @@
         <h1>SiteMultiTrack</h1>
         <p>Blablabla Blablabla Blablabla</p>
         <p>BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla Blablabla</p>
-        <p>Si vous n'êtes pas inscrit, vous pouvez vous inscrire en cliquant sur le bouton ci-dessous.</p>
+        <p>Si vous n'Ãªtes pas inscrit, vous pouvez vous inscrire en cliquant sur le bouton ci-dessous.</p>
         <p><a class="btn btn-primary btn-lg" id="signUpUserBtn" role="button">S'inscrire</a></p>
 
         <hr/>
@@ -100,6 +123,24 @@
             </div>
         </div>
     </div> 
-</div>            
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalInfoSong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modalInfoSongTitle"></h4>
+            </div>
+            <div class="modal-body" id="modalInfoSongBody">
+                
+            </div>
+            <div class="modal-footer" id="modalInfoSongFooter">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <jsp:include page="footer.jsp"/>

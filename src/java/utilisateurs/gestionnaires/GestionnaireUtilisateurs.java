@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -62,14 +63,17 @@ public class GestionnaireUtilisateurs {
 
     public void creerUtilisateursDeBase() {
         Utilisateur u = creeUtilisateur("admin", "admin", "admin", "admin");
+        suscribeUser("admin", null);
     }
 
     public Utilisateur creeUtilisateur(String nom, String prenom, String login) {
         if (!testUser(login)) {
             Utilisateur u = new Utilisateur(login, nom, prenom);
-            u.getListeChansons().add(getSong(1));
-            u.getListeChansons().add(getSong(2));
-            u.getListeChansons().add(getSong(3));
+            Collection<Chanson> l = u.getListeChansons();
+            l.add(getSong(1));
+            l.add(getSong(2));
+            l.add(getSong(3));
+            u.setListeChansons(l);
             em.persist(u);
             return u;
         }
@@ -79,9 +83,11 @@ public class GestionnaireUtilisateurs {
     public Utilisateur creeUtilisateur(String nom, String prenom, String login, String password) {
         if (!testUser(login)) {
             Utilisateur u = new Utilisateur(login, nom, prenom, password);
-            u.getListeChansons().add(getSong(1));
-            u.getListeChansons().add(getSong(2));
-            u.getListeChansons().add(getSong(3));
+            Collection<Chanson> l = u.getListeChansons();
+            l.add(getSong(1));
+            l.add(getSong(2));
+            l.add(getSong(3));
+            u.setListeChansons(l);
             em.persist(u);
             return u;
         }
@@ -90,11 +96,10 @@ public class GestionnaireUtilisateurs {
 
     public Chanson getSong(int index) {
         // Exécution d'une requête équivalente à un select *
-        Query q = em.createQuery("select u from Chanson u");
+        Query q = em.createQuery("SELECT u FROM Chanson u ORDER BY u.artiste");
         q.setMaxResults(10);
         q.setFirstResult(index * 10);
         Chanson c = (Chanson) q.getResultList().get(0);
-        System.out.println(c);
         return c;
     }
 
@@ -123,24 +128,30 @@ public class GestionnaireUtilisateurs {
         return json;
     }
 
-    public Collection<Utilisateur> getUserByLogin(String login) {
+    public Utilisateur getUserByLogin(String login) {
         // Exécution d'une requête équivalente à un select *
         Query q = em.createQuery("select u from Utilisateur u where u.login = :login");
         q.setParameter("login", login);
-        return q.getResultList();
+        return (Utilisateur) q.getResultList().get(0);
     }
 
     public void removeUser(String login) {
-        Collection<Utilisateur> liste = getUserByLogin(login);
-        for (Utilisateur utilisateur : liste) {
-            em.remove(utilisateur);
-        }
+        Utilisateur user = getUserByLogin(login);
+        em.remove(user);
     }
 
     public int editUser(String nom, String prenom, String login) {
         Query q = em.createQuery("update Utilisateur u set u.firstname = :prenom, u.lastname = :nom where u.login = :login");
         q.setParameter("prenom", prenom);
         q.setParameter("nom", nom);
+        q.setParameter("login", login);
+        int num = q.executeUpdate();
+        return num;
+    }
+
+    public int suscribeUser(String login, Calendar date) {
+        Query q = em.createQuery("update Utilisateur u set u.isAbonner = 1, u.finAbonnement = :date where u.login = :login");
+        q.setParameter("date", date);
         q.setParameter("login", login);
         int num = q.executeUpdate();
         return num;
@@ -169,4 +180,20 @@ public class GestionnaireUtilisateurs {
         return user;
     }
 
+    public Collection<Chanson> getSongByUser(Utilisateur loggedUser) {
+        Query q = em.createQuery("SELECT DISTINCT OBJECT(c) FROM Utilisateur u, IN (u.listeChansons) AS c WHERE u.id = :id");
+        q.setParameter("id", loggedUser.getId());
+        return q.getResultList();
+    }
+
+    public String listSongsToJson(Collection<Chanson> listSongs) {
+        String json = "[";
+        for (Chanson u : listSongs) {
+            json += "{\"id\":\"" + u.getId() + "\", \"artiste\":\"" + u.getArtiste().getNom() + "\", \"titre\":\"" + u.getTitre() + "\", \"prix\":\"" + u.getPrix() + "\"},";
+        }
+        json = json.substring(0, json.length() - 1);
+        json += "]";
+
+        return json;
+    }
 }

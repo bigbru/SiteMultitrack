@@ -1,18 +1,18 @@
 package utilisateurs.modeles;
 
-import java.util.Date;
+import java.util.Calendar;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import utilisateurs.modeles.Chanson;
 
-@Generated(value="EclipseLink-2.5.1.v20130918-rNA", date="2014-05-20T16:39:48")
+@Generated(value="EclipseLink-2.5.1.v20130918-rNA", date="2014-05-20T23:48:34")
 @StaticMetamodel(Utilisateur.class)
 public class Utilisateur_ { 
 
     public static volatile SingularAttribute<Utilisateur, Integer> id;
-    public static volatile SingularAttribute<Utilisateur, Date> finAbonnement;
+    public static volatile SingularAttribute<Utilisateur, Calendar> finAbonnement;
     public static volatile SingularAttribute<Utilisateur, Boolean> isAbonner;
     public static volatile SingularAttribute<Utilisateur, String> lastname;
     public static volatile SingularAttribute<Utilisateur, String> login;

@@ -6,9 +6,8 @@
 package utilisateurs.modeles;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +35,7 @@ public class Utilisateur implements Serializable {
     private Collection<Chanson> listeChansons;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date finAbonnement = null;
+    private Calendar finAbonnement = null;
     
     private boolean isAbonner = false;
     
@@ -67,11 +66,11 @@ public class Utilisateur implements Serializable {
         this.listeChansons = listeChansons;
     }
 
-    public Date getFinAbonnement() {
+    public Calendar getFinAbonnement() {
         return finAbonnement;
     }
 
-    public void setFinAbonnement(Date finAbonnement) {
+    public void setFinAbonnement(Calendar finAbonnement) {
         this.finAbonnement = finAbonnement;
     }
 
