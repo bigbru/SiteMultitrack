@@ -62,9 +62,6 @@ public class GestionnaireUtilisateurs {
 
     public void creerUtilisateursDeBase() {
         Utilisateur u = creeUtilisateur("admin", "admin", "admin", "admin");
-        u.getListeChansons().add(getSong(1));
-        u.getListeChansons().add(getSong(2));
-        u.getListeChansons().add(getSong(3));
     }
 
     public Utilisateur creeUtilisateur(String nom, String prenom, String login) {
@@ -97,6 +94,7 @@ public class GestionnaireUtilisateurs {
         q.setMaxResults(10);
         q.setFirstResult(index * 10);
         Chanson c = (Chanson) q.getResultList().get(0);
+        System.out.println(c);
         return c;
     }
 

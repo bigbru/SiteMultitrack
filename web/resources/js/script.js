@@ -24,6 +24,21 @@ $(function() {
         });
     }
 
+    function checkIfLog() {
+        $.ajax({
+            type: "POST",
+            url: "ServletUsers",
+            data: "action=testForLogin",
+            success: function(msg) {
+                if (msg !== "false") {
+                    logOutDisplay(false);
+                    $("#contentLogScreen").show();
+                    $("#divTableListSongs").hide();
+                }
+            }
+        });
+    }
+
     function logOutDisplay(forLogOut) {
         if (forLogOut) {
             $("#linkForDisconnect").hide();
@@ -35,11 +50,13 @@ $(function() {
             $("#loginNavForm").hide();
             $("#contentWithLog").show();
             $("#contentWithoutLog").hide();
+            $("#divTableListSongs").hide();
         }
     }
 
     function refreshListSongs(json) {
         $("#contentLogScreen").hide();
+        $("#divTableListSongs").show();
         $("#tableListSongs").html("");
         for (var i = 0; i < json.length; i++) {
             var obj = json[i];
@@ -55,17 +72,17 @@ $(function() {
         }
     }
 
-    var createUserDisplay = false;
-    $("#createUserBtn").click(function() {
-        if (createUserDisplay) {
-            $("#createUserDiv").hide();
-            createUserDisplay = false;
-        }
-        else {
-            $("#createUserDiv").show();
-            createUserDisplay = true;
-        }
-    });
+//    var createUserDisplay = false;
+//    $("#createUserBtn").click(function() {
+//        if (createUserDisplay) {
+//            $("#createUserDiv").hide();
+//            createUserDisplay = false;
+//        }
+//        else {
+//            $("#createUserDiv").show();
+//            createUserDisplay = true;
+//        }
+//    });
 
     var signUpUserDisplay = false;
     $("#signUpUserBtn").click(function() {
@@ -79,18 +96,39 @@ $(function() {
         }
     });
 
+    $("#logoBtn").click(function() {
+        $("#contentLogScreen").show();
+        $("#divTableListSongs").hide();
+    });
+
+    $(".inputsForSignUp").keyup(function(e) {
+        if (e.keyCode === 13) {
+            $("#btnCreateNewUser").click();
+        }
+    });
+
     $("#btnCreateNewUser").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "ServletUsers",
-            data: "action=signUpUser&nom=" + $("#signUpNom").val() + "&prenom=" + $("#signUpPrenom").val() + "&login=" + $("#signUpLogin").val() + "&pass=" + $("#signUpPass").val(),
-            success: function(msg) {
-                if (msg !== "false")
-                    getSongsIfLog();
-                else
-                    alert("Erreur dans l'inscription, ce login existe.");
-            }
-        });
+        if ($("#signUpNom").val() === "" || $("#signUpPrenom").val() === "" || $("#signUpLogin").val() === "" || $("#signUpPass").val() === "") {
+            alert("Certains champs sont vides");
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "ServletUsers",
+                data: "action=signUpUser&nom=" + $("#signUpNom").val() + "&prenom=" + $("#signUpPrenom").val() + "&login=" + $("#signUpLogin").val() + "&pass=" + $("#signUpPass").val(),
+                success: function(msg) {
+                    if (msg !== "false")
+                        getSongsIfLog();
+                    else
+                        alert("Erreur dans l'inscription, ce login existe.");
+                }
+            });
+        }
+    });
+
+    $(".inputsloginSession").keyup(function(e) {
+        if (e.keyCode === 13) {
+            $("#submitLoginFormBtn").click();
+        }
     });
 
     $("#submitLoginFormBtn").click(function() {
@@ -118,9 +156,14 @@ $(function() {
         });
     });
 
-
     // test si log puis affiche songs
-    getSongsIfLog();
+    checkIfLog();
+
+    $("#inputSongsSearch").keyup(function(e) {
+        if (e.keyCode === 13) {
+            $("#btnSearchSongs").click();
+        }
+    });
 
     $("#btnSearchSongs").click(function() {
         $.ajax({

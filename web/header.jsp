@@ -31,10 +31,10 @@
                     <div class="navbar-form navbar-right">
                         <div id="loginNavForm">   
                             <div class="form-group">
-                                <input type="text" class="form-control" id="loginSession" placeholder="login">
+                                <input type="text" class="form-control inputsloginSession" id="loginSession" placeholder="login">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="passwordSession" placeholder="password">
+                                <input type="password" class="form-control inputsloginSession" id="passwordSession" placeholder="password">
                             </div>
                             <button type="button" class="btn btn-default" id="submitLoginFormBtn">login</button>    
                         </div>

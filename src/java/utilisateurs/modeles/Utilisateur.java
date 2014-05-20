@@ -8,6 +8,8 @@ package utilisateurs.modeles;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,22 +36,23 @@ public class Utilisateur implements Serializable {
     private Collection<Chanson> listeChansons;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date finAbonnement;
+    private Date finAbonnement = null;
     
-    private boolean isAbonner;
+    private boolean isAbonner = false;
     
     
     
-    public Utilisateur() {
-    }
+    public Utilisateur() {}
 
     public Utilisateur(final String login, final String lastname, final String firstname) {
+        this.listeChansons = new LinkedList<>();
         this.login = login;
         this.lastname = lastname;
         this.firstname = firstname;
     }
 
     public Utilisateur(final String login, final String lastname, final String firstname, String password) {
+        this.listeChansons = new LinkedList<>();
         this.login = login;
         this.lastname = lastname;
         this.firstname = firstname;

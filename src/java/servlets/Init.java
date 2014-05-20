@@ -15,8 +15,8 @@ public class Init implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        gestionnaireUtilisateurs.creerUtilisateursDeBase();
         gestionnaireSongs.chargerMusiquesDeBase();
+        gestionnaireUtilisateurs.creerUtilisateursDeBase();
     }
 
     @Override

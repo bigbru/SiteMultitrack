@@ -35,21 +35,22 @@
         </div> 
     </div>
 
-    <div id="tableSongsDiv"></div>
-    <table class="table table-striped" id="tableListMain">
-        <thead>
-        <th>Artiste</th>
-        <th>Titre</th>
-        <th>Prix</th>
-        <th>Utils</th>
-        </thead>
-        <tbody id="tableListSongs"></tbody>
-    </table>
+    <div id="divTableListSongs">
+        <table class="table table-striped" id="tableListMain">
+            <thead>
+            <th>Artiste</th>
+            <th>Titre</th>
+            <th>Prix</th>
+            <th>Utils</th>
+            </thead>
+            <tbody id="tableListSongs"></tbody>
+        </table>
 
-    <ul class="pager">
-        <li id="liPrevBtn"><a href="#" id="btnPrevPage">Previous</a></li>
-        <li id="liNextBtn"><a href="#" id="btnNextPage">Next</a></li>
-    </ul>
+        <ul class="pager">
+            <li id="liPrevBtn"><a href="#" id="btnPrevPage">Previous</a></li>
+            <li id="liNextBtn"><a href="#" id="btnNextPage">Next</a></li>
+        </ul>
+    </div>
 
 </div>
 <div id="contentWithoutLog">
@@ -66,28 +67,28 @@
                 <div class="form-group">
                     <label for="signUpLogin" class="col-sm-2 control-label">Login</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="signUpLogin" placeholder="Login">
+                        <input type="text" class="form-control inputsForSignUp" id="signUpLogin" placeholder="Login">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="signUpNom" class="col-sm-2 control-label">Nom</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="signUpNom" placeholder="Nom">
+                        <input type="text" class="form-control inputsForSignUp" id="signUpNom" placeholder="Nom">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="signUpPrenom" class="col-sm-2 control-label">Prenom</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="signUpPrenom" placeholder="Prenom">
+                        <input type="text" class="form-control inputsForSignUp" id="signUpPrenom" placeholder="Prenom">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="signUpPass" class="col-sm-2 control-label">Mot de passe</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="signUpPass" placeholder="Prenom">
+                        <input type="text" class="form-control inputsForSignUp" id="signUpPass" placeholder="Prenom">
                     </div>
                 </div>
 
