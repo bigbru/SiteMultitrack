@@ -40,14 +40,79 @@
                         <li><a href="#" id="btnMyMusic">Mes musiques</a></li>
                         <li class="divider"></li>
                         <li><a href="#" id="btnGetInfos">Mes infos</a></li>
-                        <li><a href="#" id="btnGetPaiements">Mes moyens de paiement</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="divAbo"></div>
+    <div id="divAbo">
+        <div class="page-header">
+            <h1>Page d'abonnement</h1>
+        </div>
+        <p class="lead" id="leadAboP">Vous êtes actuellement abonné jusqu'au 21/05/2014</p>
+        <p id=" ">Il existe trois possibilités pour acheter de la musique. La possibilité d'acheter chanson par chanson au tarif de 3,99€, acheter un lot de chansons ou bien de s'abonner au service.</p>
+        <div class="page-header"></div>
+        <div class="row" id="rowSuscribeDiv">
+            <div class="col-lg-4">
+                <img class="img-circle" data-src="holder.js/140x140" alt="140x140" src="resources/img/search-icon.svg" style="width: 140px; height: 140px;">
+                <h2>Chanson unique</h2>
+                <p>Vous avez la possibilité d'acheter une seule chanson uniquement au tarif de 3,99€. Cette chanson sera ensuite disponible à vie sur le service et associé à votre compte utilisateur.</p>
+                <p><a class="btn btn-default" href="#" id="buyOneSong" role="button">Acheter une chanson »</a></p>
+            </div>
+            <div class="col-lg-4">
+                <img class="img-circle" data-src="holder.js/140x140" alt="140x140" src="resources/img/song-icon.svg" style="width: 140px; height: 140px;">
+                <h2>Lot de chansons</h2>
+                <p>Vous avez ici la possibilité d'acheter les chansons par lot (de 2 à 50 chansons) avec un prix dégressif. Les prix commencent à partir de 0,80€ la chanson. Les chansons achetés en lot seront disponible à vie sur le service, associé à votre compte utilisateur.</p>
+                <p><a class="btn btn-default" href="#" id="buyMultipleSong" role="button">Acheter un lot »</a></p>
+
+                <div id="selectDivForBuySongs" hidden>
+                    <hr/>
+                    <form class="form" role="form">
+                        <div class="form-group">
+                            <select class="form-control" id="selectorForBuySongs">
+                                <option value="1">2 chansons -> 5€</option>
+                                <option value="2">5 chansons -> 10€</option>
+                                <option value="3">10 chansons -> 15€</option>
+                                <option value="4">30 chansons -> 30€</option>
+                                <option value="5">50 chansons -> 40€</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" id="selectBtnForBuySongs"><img src="https://www.paypal.com/fr_FR/FR/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;"></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <img class="img-circle" data-src="holder.js/140x140" alt="140x140" src="resources/img/suscribe-icon.svg" style="width: 140px; height: 140px;">
+                <h2>Abonnement</h2>
+                <p>Vous avez également la possibilité de vous abonner au service pour différentes périodes de temps. Les formules sont disponible à partir de 5€ par mois pour un accès à la totalité du catalogue.</p>
+                <p><a class="btn btn-default" href="#" id="buySuscribeSong" role="button">S'abonner »</a></p>
+
+                <div id="selectDivForSuscribeSongs" hidden>
+                    <hr/>
+                    <form class="form" role="form">
+                        <div class="form-group">
+                            <select class="form-control" id="selectorForSuscribeSongs">
+                                <option value="1">1 jour -> 1€</option>
+                                <option value="2">15 jours -> 10€</option>
+                                <option value="3">1 mois -> 15€</option>
+                                <option value="4">3 mois -> 30€</option>
+                                <option value="5">6 mois -> 50€</option>
+                                <option value="6">1 an -> 60€</option>
+                                <option value="7">à vie -> 100€</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" id="selectBtnForSuscribeSongs"><img src="https://www.paypal.com/fr_FR/FR/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;"></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="divUserInfo"></div>
     <div id="divUserPaiements"></div>
     <div id="contentLogScreen">
@@ -134,7 +199,7 @@
                 <h4 class="modal-title" id="modalInfoSongTitle"></h4>
             </div>
             <div class="modal-body" id="modalInfoSongBody">
-                
+
             </div>
             <div class="modal-footer" id="modalInfoSongFooter"></div>
         </div>

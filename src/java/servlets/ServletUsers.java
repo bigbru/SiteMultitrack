@@ -81,27 +81,50 @@ public class ServletUsers extends HttpServlet {
                         break;
 
                     case "getAbo":
+                        String json = "[";
                         if (loggedUser.isIsAbonner()) {
                             if (loggedUser.getFinAbonnement() == null) {
-                                out.print("null");
+                                json += "{\"abo\":\"life\", \"chansons\":\"" + loggedUser.getChansonsDispos() + "\"}";
                             } else {
-                                Calendar d = loggedUser.getFinAbonnement();
-                                out.print("" + new SimpleDateFormat("dd/MM/yyyy").format(d.getTime()));
+                                json += "{\"abo\":\"" + new SimpleDateFormat("dd/MM/yyyy").format(loggedUser.getFinAbonnement().getTime()) + "\", \"chansons\":\"" + loggedUser.getChansonsDispos() + "\"}";
                             }
                         } else {
-                            out.print("false");
+                            json += "{\"abo\":\"false\", \"chansons\":\"" + loggedUser.getChansonsDispos() + "\"}";
                         }
-                        break;
-
-                    case "getPaiements":
-                        out.print("Pas de moyen de paiement");
+                        json += "]";
+                        out.print(json);
                         break;
 
                     case "getInfos":
-                        out.print("nom : "+loggedUser.getLastname());
+                        out.print("nom : " + loggedUser.getLastname());
+                        break;
+
+                    case "putLotSongs":
+                        loggedUser.setChansonsDispos(loggedUser.getChansonsDispos()+Integer.parseInt(request.getParameter("nb")));
+                        break;
+
+                    case "putSuscribeDay":
+                        if (request.getParameter("nb").equals("life")) {
+                            loggedUser.setFinAbonnement(null);
+                            loggedUser.setIsAbonner(true);
+                        } else {
+                            loggedUser.setIsAbonner(true);
+                            if (loggedUser.getFinAbonnement() != null) {
+                                Calendar c = loggedUser.getFinAbonnement();
+                                c.add(Calendar.DATE, Integer.parseInt(request.getParameter("nb")));
+                                loggedUser.setFinAbonnement(c);
+                            } else {
+                                Calendar c = Calendar.getInstance();
+                                c.add(Calendar.DATE, Integer.parseInt(request.getParameter("nb")));
+                                loggedUser.setFinAbonnement(c);
+                            }
+                        }
+                        loggedUser.setChansonsDispos(loggedUser.getChansonsDispos()+Integer.parseInt(request.getParameter("nb")));
                         break;
                         
                         
+                        
+
 //                case "chercherParLogin": {
 //                    Collection<Utilisateur> liste = gestionnaireUtilisateurs.getUserByLogin(request.getParameter("login"));
 //                    currentPagination = 0;

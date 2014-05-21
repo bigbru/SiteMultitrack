@@ -31,23 +31,24 @@ public class Utilisateur implements Serializable {
     private String lastname;
     private String login;
     private String password;
+    private int chansonsDispos;
     @OneToMany
     private Collection<Chanson> listeChansons;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar finAbonnement = null;
-    
+
     private boolean isAbonner = false;
-    
-    
-    
-    public Utilisateur() {}
+
+    public Utilisateur() {
+    }
 
     public Utilisateur(final String login, final String lastname, final String firstname) {
         this.listeChansons = new LinkedList<>();
         this.login = login;
         this.lastname = lastname;
         this.firstname = firstname;
+        this.chansonsDispos = 0;
     }
 
     public Utilisateur(final String login, final String lastname, final String firstname, String password) {
@@ -56,6 +57,7 @@ public class Utilisateur implements Serializable {
         this.lastname = lastname;
         this.firstname = firstname;
         this.password = password;
+        this.chansonsDispos = 0;
     }
 
     public Collection<Chanson> getListeChansons() {
@@ -81,7 +83,7 @@ public class Utilisateur implements Serializable {
     public void setIsAbonner(boolean isAbonner) {
         this.isAbonner = isAbonner;
     }
-    
+
     public String getLogin() {
         return login;
     }
@@ -120,6 +122,14 @@ public class Utilisateur implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getChansonsDispos() {
+        return chansonsDispos;
+    }
+
+    public void setChansonsDispos(int chansonsDispos) {
+        this.chansonsDispos = chansonsDispos;
     }
 
     @Override

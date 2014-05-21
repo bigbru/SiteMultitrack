@@ -66,42 +66,66 @@ $(document).ready(function() {
         $("#divTableListSongs").show();
         $("#tableListSongs").html("");
         var btn;
-        var getIt;
+        var getIt = false;
+        var abo = false;
         var obj;
         var objUser;
+
 
         $.ajax({
             type: "POST",
             url: "ServletUsers",
-            data: "action=getSongs",
-            success: function(userSongs) {
-                var userJson = JSON.parse(userSongs);
-                for (var i = 0; i < json.length; i++) {
-                    btn = '';
-                    getIt = false;
-                    obj = json[i];
-                    for (var j = 0; j < userJson.length; j++) {
-                        objUser = userJson[j];
-                        if (objUser.id === obj.id) {
-                            getIt = true;
-                        }
-                    }
+            data: "action=getAbo",
+            success: function(aboJ) {
+                var jsonAbo = JSON.parse(aboJ)[0];
 
-                    btn = '<button type="button" class="btn btn-info infoModalBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-list-alt"></span></button> ';
-
-                    if (getIt) {
+                if (jsonAbo.abo !== "false") {
+                    for (var i = 0; i < json.length; i++) {
+                        btn = '';
+                        obj = json[i];
+                        btn = '<button type="button" class="btn btn-info infoModalBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-list-alt"></span></button> ';
                         btn += '<button type="button" class="btn btn-success playSongBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-ok"></span></button>';
-                    } else {
-                        btn += '<button type="button" class="btn btn-warning suscribeBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-usd"></span></button>';
+                        $("#tableListSongs").append('\
+                            <tr id="edit' + obj.id + 'Main">\
+                                <td class="tdArtiste">' + obj.artiste + '</td>\
+                                <td class="tdTitre">' + obj.titre + '</td>\
+                                <td class="tdPrix">' + obj.prix + '€</td>\
+                                <td class="tdUtils">' + btn + '</td>\
+                            </tr>');
                     }
-
-                    $("#tableListSongs").append('\
-                        <tr id="edit' + obj.id + 'Main">\
-                            <td class="tdArtiste">' + obj.artiste + '</td>\
-                            <td class="tdTitre">' + obj.titre + '</td>\
-                            <td class="tdPrix">' + obj.prix + '€</td>\
-                            <td class="tdUtils">' + btn + '</td>\
-                        </tr>');
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "ServletUsers",
+                        data: "action=getSongs",
+                        success: function(userSongs) {
+                            var userJson = JSON.parse(userSongs);
+                            for (var i = 0; i < json.length; i++) {
+                                btn = '';
+                                getIt = false;
+                                obj = json[i];
+                                for (var j = 0; j < userJson.length; j++) {
+                                    objUser = userJson[j];
+                                    if (objUser.id === obj.id) {
+                                        getIt = true;
+                                    }
+                                }
+                                btn = '<button type="button" class="btn btn-info infoModalBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-list-alt"></span></button> ';
+                                if (getIt) {
+                                    btn += '<button type="button" class="btn btn-success playSongBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-ok"></span></button>';
+                                } else {
+                                    btn += '<button type="button" class="btn btn-warning suscribeBtn" id="' + obj.id + '"><span class="glyphicon glyphicon-usd"></span></button>';
+                                }
+                                $("#tableListSongs").append('\
+                                    <tr id="edit' + obj.id + 'Main">\
+                                        <td class="tdArtiste">' + obj.artiste + '</td>\
+                                        <td class="tdTitre">' + obj.titre + '</td>\
+                                        <td class="tdPrix">' + obj.prix + '€</td>\
+                                        <td class="tdUtils">' + btn + '</td>\
+                                    </tr>');
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -126,7 +150,7 @@ $(document).ready(function() {
                         $('#modalInfoSongBody').html("<ul>");
                         for (var i = 0; i < jsonPistes.length; i++) {
                             obj = jsonPistes[i];
-                            $('#modalInfoSongBody').append("<li>"+obj.nom+"</li>");
+                            $('#modalInfoSongBody').append("<li>" + obj.nom + "</li>");
                         }
                         $('#modalInfoSongBody').append("</ul>");
                         $('#modalInfoSong').modal('show');
@@ -149,6 +173,32 @@ $(document).ready(function() {
                 }
             }
         });
+    });
+
+
+
+    var selectForBuyDisplay = false;
+    $("#buyMultipleSong").click(function() {
+        if (selectForBuyDisplay) {
+            $("#selectDivForBuySongs").hide();
+            selectForBuyDisplay = false;
+        }
+        else {
+            $("#selectDivForBuySongs").show();
+            selectForBuyDisplay = true;
+        }
+    });
+
+    var selectForSuscribeDisplay = false;
+    $("#buySuscribeSong").click(function() {
+        if (selectForSuscribeDisplay) {
+            $("#selectDivForSuscribeSongs").hide();
+            selectForSuscribeDisplay = false;
+        }
+        else {
+            $("#selectDivForSuscribeSongs").show();
+            selectForSuscribeDisplay = true;
+        }
     });
 
     var signUpUserDisplay = false;
@@ -264,6 +314,11 @@ $(document).ready(function() {
         });
     });
 
+
+    $("#buyOneSong").click(function() {
+        $("#btnRefreshList").click();
+    });
+
     $("#btnRefreshList").click(function() {
         $.ajax({
             type: "POST",
@@ -284,16 +339,18 @@ $(document).ready(function() {
             url: "ServletUsers",
             data: "action=getAbo",
             success: function(msg) {
-                if (msg != 'false') {
-                    // abonné afficher ses infos d'abonnements + choix pour s'abooner a vie
-                    if (msg != 'null') {
-                        $("#divAbo").html("Vous êtes abonné jusqu'au " + msg);
+                var jsonAbo = JSON.parse(msg)[0];
+
+                if (jsonAbo.abo !== 'false') {
+                    if (jsonAbo.abo !== 'life') {
+                        $("#leadAboP").html("Vous êtes abonné jusqu'au " + jsonAbo.abo);
                     } else {
-                        $("#divAbo").html("Vous êtes abonné à vie");
+                        $("#leadAboP").html('Vous êtes abonné à vie.');
+                        $("#rowSuscribeP").hide();
+                        $("#rowSuscribeDiv").hide();
                     }
                 } else {
-                    // pas abonné proposer form abo
-                    $("#divAbo").html(msg);
+                    $("#leadAboP").html("Vous n'êtes actuellement pas abonné et il vous reste " + jsonAbo.chansons + " chansons disponible.");
                 }
             }
         });
@@ -338,19 +395,77 @@ $(document).ready(function() {
         });
     });
 
-    $("#btnGetPaiements").click(function() {
-        hideForLog();
-        $("#divUserPaiements").show();
-        $("#divUserPaiements").html("");
-        $.ajax({
-            type: "POST",
-            url: "ServletUsers",
-            data: "action=getPaiements",
-            success: function(msg) {
-                $("#divUserPaiements").html(msg);
+    $("#selectBtnForBuySongs").click(function() {
+        if (confirm("Voulez vous vraiment acheter " + $("#selectorForBuySongs option:selected").text() + " ?")) {
+            var nbChansons = 0;
+            switch ($("#selectorForBuySongs").val()) {
+                case "1":
+                    nbChansons = 2;
+                    break;
+                case "2":
+                    nbChansons = 5;
+                    break;
+                case "3":
+                    nbChansons = 10;
+                    break;
+                case "4":
+                    nbChansons = 30;
+                    break;
+                case "5":
+                    nbChansons = 50;
+                    break;
             }
-        });
+            $.ajax({
+                type: "POST",
+                url: "ServletUsers",
+                data: "action=putLotSongs&nb="+nbChansons,
+                success: function() {
+                    alert("Merci de votre achat !");
+                    $("#btnAboForm").click();
+                }
+            });
+        }
+
     });
+
+    $("#selectBtnForSuscribeSongs").click(function() {
+        if (confirm("Voulez vous vraiment vous abonner " + $("#selectorForSuscribeSongs option:selected").text() + " ?")) {
+            var jours = 0;
+            switch ($("#selectorForSuscribeSongs").val()) {
+                case "1":
+                    jours = 1;
+                    break;
+                case "2":
+                    jours = 15;
+                    break;
+                case "3":
+                    jours = 30;
+                    break;
+                case "4":
+                    jours = 90;
+                    break;
+                case "5":
+                    jours = 180;
+                    break;
+                case "6":
+                    jours = 365;
+                    break;
+                case "7":
+                    jours = "life";
+                    break;
+            }
+            $.ajax({
+                type: "POST",
+                url: "ServletUsers",
+                data: "action=putSuscribeDay&nb="+jours,
+                success: function() {
+                    alert("Merci de votre achat !");
+                    $("#btnAboForm").click();
+                }
+            });
+        }
+    });
+
 
 
 //    $.ajax({
