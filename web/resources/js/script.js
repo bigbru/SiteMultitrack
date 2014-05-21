@@ -109,9 +109,31 @@ $(document).ready(function() {
 
     $(document).on('click', '.infoModalBtn', function() {
         var id = $(this).attr('id');
-        $('#modalInfoSongTitle').html("TItre de la modal");
-        $('#modalInfoSongBody').html(id);
-        $('#modalInfoSong').modal('show');
+        $.ajax({
+            type: "POST",
+            url: "ServletSongs",
+            data: "action=getASong&id=" + id,
+            success: function(msg) {
+                var json = JSON.parse(msg)[0];
+                $('#modalInfoSongTitle').html(json.artiste + " - " + json.titre);
+
+                $.ajax({
+                    type: "POST",
+                    url: "ServletSongs",
+                    data: "action=getPistes&id=" + id,
+                    success: function(msgPistes) {
+                        var jsonPistes = JSON.parse(msgPistes);
+                        $('#modalInfoSongBody').html("<ul>");
+                        for (var i = 0; i < jsonPistes.length; i++) {
+                            obj = jsonPistes[i];
+                            $('#modalInfoSongBody').append("<li>"+obj.nom+"</li>");
+                        }
+                        $('#modalInfoSongBody').append("</ul>");
+                        $('#modalInfoSong').modal('show');
+                    }
+                });
+            }
+        });
     });
 
     $("#btnMyMusic").click(function() {

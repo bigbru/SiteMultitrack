@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package utilisateurs.modeles;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -19,28 +17,35 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Piste implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String nom;
-    @OneToOne
-    private Instrument instrument;
 
     public Piste() {
     }
 
-    public Piste(String nom, Instrument instrument) {
+    public Piste(String nom) {
         this.nom = nom;
-        this.instrument = instrument;
     }
-    
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     @Override
@@ -65,7 +70,7 @@ public class Piste implements Serializable {
 
     @Override
     public String toString() {
-        return "utilisateurs.modeles.Piste[ id=" + id + " ]";
+        return "utilisateurs.modeles.Piste[ id=" + id + ", nom=" + nom + " ]";
     }
-    
+
 }

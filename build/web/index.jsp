@@ -136,9 +136,7 @@
             <div class="modal-body" id="modalInfoSongBody">
                 
             </div>
-            <div class="modal-footer" id="modalInfoSongFooter">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            <div class="modal-footer" id="modalInfoSongFooter"></div>
         </div>
     </div>
 </div>

@@ -103,10 +103,20 @@ public class ServletSongs extends HttpServlet {
                     out.print("Jouer !");
                     break;
                 }
+                
+                case "getASong": {
+                    out.print(gestionnaireSongs.listSongsToJson(gestionnaireSongs.getSongById(Long.parseLong(request.getParameter("id")))));
+                    break;
+                }
                         
                 case "getPages": {
                     String nbPages = Math.ceil(gestionnaireSongs.getAllSongs().size() / 10) + "";
                     out.print("[{\"nb\":\"" + nbPages + "\", \"current\":\"" + currentPagination + "\"}]");
+                    break;
+                }
+                
+                case "getPistes": {
+                    out.print(gestionnaireSongs.listPistesToJson(gestionnaireSongs.getPistesOfSong(Long.parseLong(request.getParameter("id")))));
                     break;
                 }
             }

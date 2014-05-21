@@ -8,6 +8,8 @@ package utilisateurs.modeles;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +31,7 @@ public class Chanson implements Serializable {
     @OneToOne
     private Artiste artiste;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private Collection<Piste> pistes;
     
     private String titre;
@@ -39,11 +41,20 @@ public class Chanson implements Serializable {
     }
 
     public Chanson(String titre, Artiste artiste, double prix) {
+        this.pistes = new LinkedList<>();
         this.titre = titre;
         this.artiste = artiste;
         this.prix = prix;
     }
 
+    public Chanson(String titre, Artiste artiste, double prix, Collection<Piste> pistes) {
+        this.pistes = new LinkedList<>();
+        this.titre = titre;
+        this.artiste = artiste;
+        this.prix = prix;
+        this.pistes = pistes;
+    }
+    
     public Long getId() {
         return id;
     }

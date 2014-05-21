@@ -4,16 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.LinkedList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import utilisateurs.modeles.Artiste;
 import utilisateurs.modeles.Chanson;
+import utilisateurs.modeles.Piste;
 
 @Stateless
 public class GestionnaireSongs {
@@ -27,6 +26,12 @@ public class GestionnaireSongs {
         return m;
     }
 
+    public Chanson creeMusique(Artiste artiste, String titre, double prix, Collection<Piste> pistes) {
+        Chanson m = new Chanson(titre, artiste, prix, pistes);
+        em.persist(m);
+        return m;
+    }
+
     public Artiste creeArtiste(String nom) {
         Artiste m = new Artiste(nom);
         em.persist(m);
@@ -35,27 +40,34 @@ public class GestionnaireSongs {
 
     public void chargerMusiquesDeBase() {
         String line;
-
-        //chercher la derniere ligne avec ./
-        boolean end = false;
-
         InputStream is;
         BufferedReader br = null;
+        Collection<Piste> pistes = new LinkedList<>();
+        String[] curSong = null;
+        Artiste curArtiste = null;
         try {
             is = getClass().getClassLoader().getResourceAsStream("data/listeChansons.txt");
             br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
-                if (end) {
-                    break;
+                if (line.contains("./")) {
+                    if (pistes.size() > 0) {
+                        creeMusique(curArtiste, curSong[1], 3.99, pistes);
+                        pistes = new LinkedList<>();
+                    }
+                    String strSong = line.replace("./", "");
+                    strSong = strSong.replace(":", "");
+                    if (strSong.split("-").length == 2) {
+                        curSong = strSong.split("-");
+                        curArtiste = creeArtiste(curSong[0]);
+                    }
                 } else {
-                    if (line.contains("./")) {
-                        end = true;
-                    } else {
-                        if (line.split("-").length == 2) {
-                            String[] song = line.split("-");
-                            Artiste a = creeArtiste(song[0]);
-                            creeMusique(a, song[1], 3.99);
-                        }
+                    Piste p = null;
+                    if (line.contains(".mp3")) {
+                        p = new Piste(line.replace(".mp3", ""));
+                        pistes.add(p);
+                    } else if (line.contains(".ogg")) {
+                        p = new Piste(line.replace(".ogg", ""));
+                        pistes.add(p);
                     }
                 }
             }
@@ -149,5 +161,21 @@ public class GestionnaireSongs {
 
     public void persist2(Object object) {
         em.persist(object);
+    }
+    
+    public Collection<Piste> getPistesOfSong(Long id) {
+        Query q = em.createQuery("SELECT DISTINCT OBJECT(c) FROM Chanson u, IN (u.pistes) AS c WHERE u.id = :id");
+        q.setParameter("id", id);
+        return q.getResultList();
+    }
+
+    public String listPistesToJson(Collection<Piste> pistesOfSong) {
+        String json = "[";
+        for (Piste u : pistesOfSong) {
+            json += "{\"id\":\"" + u.getId() + "\", \"nom\":\"" + u.getNom() + "\"},";
+        }
+        json = json.substring(0, json.length() - 1);
+        json += "]";
+        return json;
     }
 }
