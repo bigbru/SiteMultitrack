@@ -50,7 +50,8 @@
         <div class="page-header">
             <h1>Page d'abonnement</h1>
         </div>
-        <p class="lead" id="leadAboP">Vous êtes actuellement abonné jusqu'au 21/05/2014</p>
+        <p class="lead" id="leadAboP" style="color: #008000;font-size: 24px;"></p>
+        <p class="lead" id="leadAboPNo" style="color: red;font-size: 24px;"></p>
         <p id=" ">Il existe trois possibilités pour acheter de la musique. La possibilité d'acheter chanson par chanson au tarif de 3,99€, acheter un lot de chansons ou bien de s'abonner au service.</p>
         <div class="page-header"></div>
         <div class="row" id="rowSuscribeDiv">
@@ -117,9 +118,26 @@
     <div id="divUserPaiements"></div>
     <div id="contentLogScreen">
         <div class="jumbotron">
-            <h1>Bienvenue</h1>
-            <p>Blablabla Blablabla Blablabla</p>
-            <p>BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla Blablabla</p>
+            <h1>Bienvenue sur BHUMP !</h1>
+            <p>BHUMP est un player HTML5 multi-pistes destiné aux musiciens, celui-ci vous offre la possibilité de jouer uniquement les pistes de votre choix de chaque chansons</p>
+            <b style="font-size:26px;">Inscrivez-vous et découvrez notre service grâce à ces 3 morceaux offerts :</b>
+            <div style="height:90px;width:100%;margin-top: 15px;">
+            <div class="imgMain">
+                <img class="img-circle"  src="resources/img/alice.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
+                <b>Alice Copper</b> <br/><br/>
+                <i> - I'm Eighteen</i>
+            </div>
+            <div class="imgMain">
+                <img class="img-circle"  src="resources/img/beatles.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
+                <b>Beatles</b> <br/><br/>
+                <i> - When Im 64</i>
+            </div>
+            <div class="imgMain">
+                <img class="img-circle"  src="resources/img/dead-kennedy.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
+                <b>Dead Kennedys</b>  <br/><br/>
+                <i> - Holiday In Cambodia</i>
+            </div>
+            </div>
         </div> 
     </div>
 
@@ -143,15 +161,14 @@
 </div>
 <div id="contentWithoutLog">
     <div class="jumbotron">
-        <h1>SiteMultiTrack</h1>
-        <p>Blablabla Blablabla Blablabla</p>
-        <p>BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla BlablablaBlablabla Blablabla</p>
+        <h1>Bienvenue sur BHUMP !</h1>
+        <p>BHUMP est un player HTML5 multi-pistes destiné aux musiciens, celui-ci vous offre la possibilité de jouer uniquement les pistes de votre choix de chaque chansons</p>
+        <p>Si vous désirez essayer notre service, n'hésitez pas c'est gratuit !</p>
         <p>Si vous n'êtes pas inscrit, vous pouvez vous inscrire en cliquant sur le bouton ci-dessous.</p>
-        <p><a class="btn btn-primary btn-lg" id="signUpUserBtn" role="button">S'inscrire</a></p>
-
+        <p><a class="btn btn-primary btn-lg" id="signUpUserBtn" role="button" style="margin-left:400px;width:300px;height:100px;border-radius: 30px;font-size:55px;padding-top: 13px;">S'inscrire</a></p>
         <hr/>
         <div id="signUpUserDiv" hidden>
-            <div class="form-horizontal" role="form">
+            <div class="form-horizontal" role="form" style="margin-left:280px;">
                 <div class="form-group">
                     <label for="signUpLogin" class="col-sm-2 control-label">Login</label>
                     <div class="col-sm-5">
@@ -182,9 +199,28 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" id="btnCreateNewUser" class="btn btn-default">S'inscrire</button>
+                        <button type="button" id="btnCreateNewUser" class="btn btn-default" style="background-color: #2EA023;border-radius: 20px;color: #FFFFFF;font-size: 22px;height: 50px;margin-left: 76px;width: 140px;">Envoyer</button>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <b style="font-size:26px;">Inscrivez-vous et découvrez notre service grâce à ces 3 morceaux offerts :</b>
+        <div style="height:90px;width:100%;margin-top: 15px;">
+            <div class="imgMain">
+                <img class="img-circle"  src="resources/img/alice.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
+                <b>Alice Copper</b> <br/><br/>
+                <i> - I'm Eighteen</i>
+            </div>
+            <div class="imgMain">
+                <img class="img-circle"  src="resources/img/beatles.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
+                <b>Beatles</b> <br/><br/>
+                <i> - When Im 64</i>
+            </div>
+            <div class="imgMain">
+                <img class="img-circle"  src="resources/img/dead-kennedy.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
+                <b>Dead Kennedys</b>  <br/><br/>
+                <i> - Holiday In Cambodia</i>
             </div>
         </div>
     </div> 

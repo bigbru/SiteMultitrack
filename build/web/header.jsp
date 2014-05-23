@@ -14,6 +14,7 @@
         <title>Gestionnaire d'utilisateurs</title>
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/img/favicon.ico">
         <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
     </head>
     <body>
         <div class="navbar navbar-default" role="navigation">
@@ -25,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.jsp">MultiTrackSongs</a>
+                    <a class="navbar-brand" href="index.jsp">BHUMP : an HTML5 Multitrack player !</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <div class="navbar-form navbar-right">

@@ -343,14 +343,14 @@ $(document).ready(function() {
 
                 if (jsonAbo.abo !== 'false') {
                     if (jsonAbo.abo !== 'life') {
-                        $("#leadAboP").html("Vous êtes abonné jusqu'au " + jsonAbo.abo);
+                        $("#leadAboP").html("Vous êtes actuellement abonné jusqu'au " + jsonAbo.abo);
                     } else {
                         $("#leadAboP").html('Vous êtes abonné à vie.');
                         $("#rowSuscribeP").hide();
                         $("#rowSuscribeDiv").hide();
                     }
                 } else {
-                    $("#leadAboP").html("Vous n'êtes actuellement pas abonné et il vous reste " + jsonAbo.chansons + " chansons disponible.");
+                    $("#leadAboPNo").html("Vous n'êtes actuellement pas abonné et il vous reste " + jsonAbo.chansons + " chansons disponible.");
                 }
             }
         });
