@@ -165,10 +165,10 @@
         <p>BHUMP est un player HTML5 multi-pistes destiné aux musiciens, celui-ci vous offre la possibilité de jouer uniquement les pistes de votre choix de chaque chansons</p>
         <p>Si vous désirez essayer notre service, n'hésitez pas c'est gratuit !</p>
         <p>Si vous n'êtes pas inscrit, vous pouvez vous inscrire en cliquant sur le bouton ci-dessous.</p>
-        <p><a class="btn btn-primary btn-lg" id="signUpUserBtn" role="button" style="margin-left:400px;width:300px;height:100px;border-radius: 30px;font-size:55px;padding-top: 13px;">S'inscrire</a></p>
+        <p><a class="btn btn-primary btn-lg" id="signUpUserBtn" role="button" style="margin-left: 360px;margin-top: 25px;width:300px;height:100px;border-radius: 30px;font-size:55px;padding-top: 13px;">S'inscrire</a></p>
         <hr/>
         <div id="signUpUserDiv" hidden>
-            <div class="form-horizontal" role="form" style="margin-left:280px;">
+            <div class="form-horizontal" role="form" style="margin-left:215px;">
                 <div class="form-group">
                     <label for="signUpLogin" class="col-sm-2 control-label">Login</label>
                     <div class="col-sm-5">
