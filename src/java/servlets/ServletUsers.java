@@ -81,17 +81,16 @@ public class ServletUsers extends HttpServlet {
                     case "getSongs":
                         out.print(gestionnaireUtilisateurs.listSongsToJson(gestionnaireUtilisateurs.getSongByUser(loggedUser)));
                         break;
-                        
+
                     case "suscribe": {
                         Chanson chanson = gestionnaireUtilisateurs.getSong((int) Long.parseLong(request.getParameter("id")));
-                        if(loggedUser.getChansonsDispos() > 0) {
-                            loggedUser.getListeChansons().add(chanson);
-                            loggedUser.setChansonsDispos((loggedUser.getChansonsDispos()-1));
-                            
+                        if (loggedUser.getChansonsDispos() > 0) {
+                            loggedUser.setChansonsDispos((loggedUser.getChansonsDispos() - 1));
+                            gestionnaireUtilisateurs.addSongtoUser(loggedUser, chanson);
+                        } else {
+                            gestionnaireUtilisateurs.addSongtoUser(loggedUser, chanson);
                         }
-                        else {
-                            
-                        }
+                        out.print("true");
                         break;
                     }
 
@@ -115,7 +114,7 @@ public class ServletUsers extends HttpServlet {
                         break;
 
                     case "putLotSongs":
-                        loggedUser.setChansonsDispos(loggedUser.getChansonsDispos()+Integer.parseInt(request.getParameter("nb")));
+                        loggedUser.setChansonsDispos(loggedUser.getChansonsDispos() + Integer.parseInt(request.getParameter("nb")));
                         break;
 
                     case "putSuscribeDay":
@@ -134,11 +133,8 @@ public class ServletUsers extends HttpServlet {
                                 loggedUser.setFinAbonnement(c);
                             }
                         }
-                        loggedUser.setChansonsDispos(loggedUser.getChansonsDispos()+Integer.parseInt(request.getParameter("nb")));
+                        loggedUser.setChansonsDispos(loggedUser.getChansonsDispos() + Integer.parseInt(request.getParameter("nb")));
                         break;
-                        
-                        
-                        
 
 //                case "chercherParLogin": {
 //                    Collection<Utilisateur> liste = gestionnaireUtilisateurs.getUserByLogin(request.getParameter("login"));

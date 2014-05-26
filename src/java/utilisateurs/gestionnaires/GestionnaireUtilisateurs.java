@@ -67,7 +67,7 @@ public class GestionnaireUtilisateurs {
 
     public void creerUtilisateursDeBase() {
         Utilisateur u = creeUtilisateur("admin", "admin", "admin", "admin");
-        
+
         String untildate = "2014-10-08";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -77,7 +77,7 @@ public class GestionnaireUtilisateurs {
             Logger.getLogger(GestionnaireUtilisateurs.class.getName()).log(Level.SEVERE, null, ex);
         }
         cal.add(Calendar.DATE, 1);
-        
+
         suscribeUser("admin", cal);
     }
 
@@ -199,6 +199,13 @@ public class GestionnaireUtilisateurs {
         Query q = em.createQuery("SELECT DISTINCT OBJECT(c) FROM Utilisateur u, IN (u.listeChansons) AS c WHERE u.id = :id");
         q.setParameter("id", loggedUser.getId());
         return q.getResultList();
+    }
+
+    public void addSongtoUser(Utilisateur u, Chanson s) {
+        Collection<Chanson> l = u.getListeChansons();
+        l.add(s);
+        u.setListeChansons(l);
+        em.persist(u);
     }
 
     public String listSongsToJson(Collection<Chanson> listSongs) {

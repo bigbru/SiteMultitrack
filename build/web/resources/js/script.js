@@ -358,14 +358,16 @@ $(document).ready(function() {
 
     $(document).on('click', '.suscribeBtn', function() {
         var id = $(this).attr('id');
-        $.ajax({
-            type: "POST",
-            url: "ServletSongs",
-            data: "action=suscribe&id=" + id,
-            success: function(msg) {
-                alert(msg);
-            }
-        });
+        if (confirm("Voulez vous vraiment acheter cette chanson ?")) {
+            $.ajax({
+                type: "POST",
+                url: "ServletUsers",
+                data: "action=suscribe&id=" + id,
+                success: function(msg) {
+                    btnMyMusic.click();
+                }
+            });
+        }
     });
 
     $(document).on('click', '.playSongBtn', function() {
@@ -418,7 +420,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: "ServletUsers",
-                data: "action=putLotSongs&nb="+nbChansons,
+                data: "action=putLotSongs&nb=" + nbChansons,
                 success: function() {
                     alert("Merci de votre achat !");
                     $("#btnAboForm").click();
@@ -457,7 +459,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: "ServletUsers",
-                data: "action=putSuscribeDay&nb="+jours,
+                data: "action=putSuscribeDay&nb=" + jours,
                 success: function() {
                     alert("Merci de votre achat !");
                     $("#btnAboForm").click();
