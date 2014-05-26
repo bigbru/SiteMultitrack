@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utilisateurs.gestionnaires.GestionnaireSongs;
+import utilisateurs.gestionnaires.GestionnaireUtilisateurs;
 import utilisateurs.modeles.Chanson;
 
 /**
@@ -89,14 +90,7 @@ public class ServletSongs extends HttpServlet {
                     out.print(gestionnaireSongs.listSongsToJson(liste));
                     break;
                 }
-                
-                case "suscribe": {
-                    System.out.println("suscribe !!!");
-                    Collection<Chanson> liste = gestionnaireSongs.getSongById(Long.parseLong(request.getParameter("id")));
-                    out.print("Abonner !");
-                    break;
-                }
-                
+
                 case "playSong": {
                     currentPagination = 0;
                     Collection<Chanson> liste = gestionnaireSongs.getSongById(Long.parseLong(request.getParameter("id")));

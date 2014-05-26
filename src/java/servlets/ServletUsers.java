@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utilisateurs.gestionnaires.GestionnaireUtilisateurs;
+import utilisateurs.modeles.Chanson;
 import utilisateurs.modeles.Utilisateur;
 
 /**
@@ -79,6 +81,19 @@ public class ServletUsers extends HttpServlet {
                     case "getSongs":
                         out.print(gestionnaireUtilisateurs.listSongsToJson(gestionnaireUtilisateurs.getSongByUser(loggedUser)));
                         break;
+                        
+                    case "suscribe": {
+                        Chanson chanson = gestionnaireUtilisateurs.getSong((int) Long.parseLong(request.getParameter("id")));
+                        if(loggedUser.getChansonsDispos() > 0) {
+                            loggedUser.getListeChansons().add(chanson);
+                            loggedUser.setChansonsDispos((loggedUser.getChansonsDispos()-1));
+                            
+                        }
+                        else {
+                            
+                        }
+                        break;
+                    }
 
                     case "getAbo":
                         String json = "[";
