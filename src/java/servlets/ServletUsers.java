@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -83,7 +82,7 @@ public class ServletUsers extends HttpServlet {
                         break;
 
                     case "suscribe": {
-                        Chanson chanson = gestionnaireUtilisateurs.getSong(Integer.parseInt(request.getParameter("id")));
+                        Chanson chanson = gestionnaireUtilisateurs.getSongById(Long.parseLong(request.getParameter("id")));
                         if (loggedUser.getChansonsDispos() > 0) {
                             loggedUser.setChansonsDispos((loggedUser.getChansonsDispos() - 1));
                             gestionnaireUtilisateurs.addSongtoUser(loggedUser, chanson);

@@ -143,6 +143,13 @@ public class GestionnaireUtilisateurs {
         return json;
     }
 
+    public Chanson getSongById(Long id) {
+        // Exécution d'une requête équivalente à un select *
+        Query q = em.createQuery("select u from Chanson u where u.id=:id");
+        q.setParameter("id", id);
+        return (Chanson)q.getResultList().get(0);
+    }
+    
     public Utilisateur getUserByLogin(String login) {
         // Exécution d'une requête équivalente à un select *
         Query q = em.createQuery("select u from Utilisateur u where u.login = :login");
@@ -201,11 +208,13 @@ public class GestionnaireUtilisateurs {
         return q.getResultList();
     }
 
-    public void addSongtoUser(Utilisateur u, Chanson s) {
+    public Utilisateur addSongtoUser(Utilisateur us, Chanson s) {
+        Utilisateur u = em.find(Utilisateur.class, us.getId());
         Collection<Chanson> l = u.getListeChansons();
         l.add(s);
         u.setListeChansons(l);
         em.persist(u);
+        return u;
     }
 
     public String listSongsToJson(Collection<Chanson> listSongs) {
