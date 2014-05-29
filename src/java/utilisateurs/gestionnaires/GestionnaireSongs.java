@@ -116,18 +116,16 @@ public class GestionnaireSongs {
         return q.getResultList();
     }
 
-    public Collection<Chanson> getSongById(Long id) {
+    public Chanson getSongById(Long id) {
         // Exécution d'une requête équivalente à un select *
         Query q = em.createQuery("select u from Chanson u where u.id=:id");
         q.setParameter("id", id);
-        return q.getResultList();
+        return (Chanson) q.getResultList().get(0);
     }
 
     public void removeSong(Long id) {
-        Collection<Chanson> liste = getSongById(id);
-        for (Chanson song : liste) {
-            em.remove(song);
-        }
+        Chanson c = getSongById(id);
+        em.remove(c);
     }
 
     public int editSong(String id, String artiste, String titre, String prix) {
@@ -162,7 +160,7 @@ public class GestionnaireSongs {
     public void persist2(Object object) {
         em.persist(object);
     }
-    
+
     public Collection<Piste> getPistesOfSong(Long id) {
         Query q = em.createQuery("SELECT DISTINCT OBJECT(c) FROM Chanson u, IN (u.pistes) AS c WHERE u.id = :id");
         q.setParameter("id", id);

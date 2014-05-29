@@ -377,7 +377,9 @@ $(document).ready(function() {
             url: "ServletSongs",
             data: "action=playSong&id=" + id,
             success: function(msg) {
-                alert(msg);
+                var jsonPlay = JSON.parse(msg)[0];
+                window.open('http://mt5.gexsoft.com/play/'+jsonPlay.titre+'/auth='+jsonPlay.id+'');
+                return false;
             }
         });
     });

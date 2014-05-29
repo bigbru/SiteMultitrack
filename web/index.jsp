@@ -33,14 +33,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-home"></span> Mon compte <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" id="btnMyMusic">Mes musiques</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" id="btnGetInfos">Mes infos</a></li>
-                    </ul>
+                    <button type="button" class="btn btn-info" id="btnMyMusic"><span class="glyphicon glyphicon-home"></span> Mes musiques </button>
                 </div>
             </div>
         </div>
@@ -120,7 +113,7 @@
         <div class="jumbotron">
             <h1>Bienvenue sur BHUMP !</h1>
             <p>BHUMP est un player HTML5 multi-pistes destiné aux musiciens, celui-ci vous offre la possibilité de jouer uniquement les pistes de votre choix de chaque chansons</p>
-            <b style="font-size:26px;">Inscrivez-vous et découvrez notre service grâce à ces 3 morceaux offerts :</b>
+            <b style="font-size:26px;">Découvrez notre service grâce à vos 3 morceaux offerts (disponibles dans l'onglet "Mes musiques") :</b>
             <div style="height:90px;width:100%;margin-top: 15px;">
             <div class="imgMain">
                 <img class="img-circle"  src="resources/img/alice.jpg" style="width: 100px; height: 100px;box-shadow: 5px 2px 11px #777777;float:left;margin-right:10px;">
